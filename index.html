@@ -18,6 +18,7 @@
   --bg:#131518; --fg:#E6E8EB; --muted:#9AA1AB; --line:#2A2E34; --soft:#1B1E22; --accent:#9DB4E0; color-scheme:dark}
 
 *{box-sizing:border-box}
+[hidden]{display:none !important} /* sinon .panel{display:grid} affiche tous les onglets en même temps */
 body{background:var(--bg);color:var(--fg);font:400 16px/1.65 var(--font);padding:0 16px}
 .wrap{max-width:820px;margin:0 auto;padding-block:48px 72px}
 h1,h2,h3,h4{margin:0;font-weight:600;line-height:1.25;text-wrap:balance}
@@ -105,13 +106,13 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-si
     </header>
     <section>
       <h3>À propos</h3>
-      <p>Élève ingénieur en 1ère année du département 3EA à l'ENSEEIHT, après un Bachelor Ingénierie Responsable &amp; Transformations Digitales à Centrale Méditerranée (Nice) et une année de prépa PCSI-PSI. Je m'intéresse particulièrement à l'électronique, l'instrumentation scientifique et le traitement du signal, domaines que j'ai pu approfondir lors d'un stage de recherche en imagerie hyperspectrale. Curieux et autonome, je recherche aujourd'hui un stage de S6 dans l'instrumentation scientifique ou l'électronique embarquée.</p>
+      <p>Élève ingénieur en 1ère année du département 3EA à l'ENSEEIHT, après un Bachelor Ingénierie Responsable &amp; Transformations Digitales à Centrale Méditerranée (Nice) et une année de prépa PCSI (option PSI). Je m'intéresse particulièrement à l'électronique, l'instrumentation scientifique et le traitement du signal, domaines que j'ai approfondis lors de deux stages de recherche en 2026 : en instrumentation pour l'imagerie hyperspectrale à l'INPHYNI (CNRS, Nice), puis en simulation Monte-Carlo pour la physique médicale à Beihang University (Hangzhou, Chine). Curieux et autonome, je recherche aujourd'hui un stage dans l'instrumentation scientifique ou l'électronique embarquée.</p>
     </section>
     <section>
       <h3>En ce moment</h3>
       <div class="cols">
         <div><span class="eyebrow">Projet en cours</span><p><span class="tbd">Premier semestre à l'ENSEEIHT — à compléter avec les projets du département 3EA</span></p></div>
-        <div><span class="eyebrow">Recherche</span><p>Stage de S6, domaine visé : instrumentation scientifique / électronique</p></div>
+        <div><span class="eyebrow">Recherche</span><p>Stage en instrumentation scientifique / électronique embarquée</p></div>
         <div><span class="eyebrow">Centres d'intérêt</span><p>Volley-ball, football, dessin, transition écologique</p></div>
       </div>
     </section>
@@ -126,25 +127,25 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-si
     <section>
       <h3>Formation</h3>
       <div class="items">
-        <div class="item"><span class="when">2026 – 2029</span><div><h4>Diplôme d'ingénieur, Toulouse INP – ENSEEIHT</h4><p class="small">Département 3EA (Électronique, Énergie Électrique et Automatique)</p></div></div>
-        <div class="item"><span class="when">2023 – 2026</span><div><h4>Bachelor Ingénierie Responsable &amp; Transformations Digitales</h4><p class="small">Centrale Méditerranée, Nice — formation pluridisciplinaire (mathématiques, physique, informatique, électronique, mécanique), orientée ingénierie numérique, innovation et gestion de projet</p></div></div>
-        <div class="item"><span class="when">2022 – 2023</span><div><h4>Classe préparatoire PCSI puis PSI (CPGE)</h4><p class="small">Lycée Jean Perrin, Lyon — mathématiques, physique, sciences de l'ingénieur</p></div></div>
+        <div class="item"><span class="when">2026 – 2029</span><div><h4>Diplôme d'ingénieur, Toulouse INP – ENSEEIHT</h4><p class="small">Département 3EA (Électronique, Énergie Électrique et Automatique) — systèmes numériques, circuits, signal et commande, programmation</p></div></div>
+        <div class="item"><span class="when">2023 – 2026</span><div><h4>Bachelor Ingénierie Responsable &amp; Transformations Digitales</h4><p class="small">Centrale Méditerranée, Nice — formation pluridisciplinaire (mathématiques, physique, informatique, électronique, mécanique), orientée ingénierie numérique, innovation et gestion de projet ; 3e année en alternance école / laboratoire</p></div></div>
+        <div class="item"><span class="when">2022 – 2023</span><div><h4>Classe préparatoire PCSI, option PSI (CPGE)</h4><p class="small">Lycée Jean Perrin, Lyon — mathématiques, physique, sciences de l'ingénieur</p></div></div>
         <div class="item"><span class="when">2019 – 2022</span><div><h4>Baccalauréat général, spécialités Mathématiques, Physique-Chimie</h4><p class="small">Lycée Rosa Parks, Neuville-sur-Saône — mention assez bien</p></div></div>
       </div>
     </section>
     <section>
       <h3>Projets</h3>
       <div class="items">
-        <div class="item"><span class="when">2026</span><div><h4>Redesign opto-mécanique d'un prototype d'imagerie hyperspectrale active</h4><p class="small">Institut de Physique de Nice (INPHYNI) — définition des spécifications techniques, développement d'une électronique de synchronisation (Teensy 4.1) pour des mesures interférométriques, essais expérimentaux sur films minces (films de savon) avec acquisition de données et mesure d'épaisseur, validation du système et analyse de marché exploratoire.</p></div></div>
-        <div class="item"><span class="when">—</span><div><h4><span class="tbd">Projet 2 (département 3EA)</span></h4><p class="small">À compléter avec un projet du département une fois réalisé.</p></div></div>
+        <div class="item"><span class="when">2026</span><div><h4>Prototype d'imagerie hyperspectrale active</h4><p class="small">Institut de Physique de Nice (INPHYNI, CNRS) — synchronisation temps réel sur Teensy 4.1 en C++ (laser 250 kHz, miroir 12,5 Hz, caméra rapide 12,5 kHz, sans gigue), acquisition ADC à 250 kHz par DMA, traitement du signal en Python (FFT, transformée de Hilbert) pour mesurer l'épaisseur de films minces (films de savon), redesign opto-mécanique du prototype et analyse de marché exploratoire.</p></div></div>
+        <div class="item"><span class="when">2026</span><div><h4>Simulation Monte-Carlo d'un faisceau d'ions carbone (hadronthérapie)</h4><p class="small">Beihang University, Hangzhou (Chine) — simulation FLUKA d'un faisceau ¹²C à 260 MeV/n sur fantôme PMMA (Linux, Flair), calcul de la dose (pic de Bragg) et de l'activité β⁺ corrélée à la portée du faisceau pour la TEP en ligne, validation par comparaison à la littérature. Projet mené en anglais.</p></div></div>
         <div class="item"><span class="when">—</span><div><h4><span class="tbd">Projet 3 (département 3EA)</span></h4><p class="small">À compléter avec un projet du département une fois réalisé.</p></div></div>
       </div>
     </section>
     <section>
       <h3>Compétences</h3>
       <div class="cols">
-        <div><span class="eyebrow">Techniques</span><p>Python, Java, SQL (bases) · électronique et instrumentation scientifique (Teensy 4.1, mesures interférométriques) · mathématiques et physique de l'ingénieur (mécanique, électromagnétisme) · modélisation de systèmes et automatique (niveau académique)</p></div>
-        <div><span class="eyebrow">Transversales</span><p>Gestion de projet — illustrée par le rôle d'élu transition écologique et développement durable à Centrale Méditerranée · esprit d'équipe et capacité d'adaptation — illustrés par le sport collectif en compétition (volley, football) · autonomie et rigueur — illustrées par le stage de recherche à l'INPHYNI</p></div>
+        <div><span class="eyebrow">Techniques</span><p>Python (traitement du signal), C++ embarqué (Teensy 4.1), Java, SQL · simulation Monte-Carlo (FLUKA, Flair), Linux · électronique et instrumentation scientifique (synchronisation temps réel, acquisition DMA, mesures interférométriques) · mathématiques et physique de l'ingénieur (mécanique, électromagnétisme) · modélisation de systèmes et automatique (niveau académique)</p></div>
+        <div><span class="eyebrow">Transversales</span><p>Gestion de projet — illustrée par le rôle d'élu transition écologique et développement durable à Centrale Méditerranée · esprit d'équipe et capacité d'adaptation — illustrés par le sport collectif en compétition (volley, football) · autonomie et rigueur — illustrées par les stages de recherche à l'INPHYNI et à Beihang University · travail en anglais en contexte international — stage en Chine</p></div>
       </div>
     </section>
   </article>
@@ -166,7 +167,10 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-si
     </section>
     <section>
       <h3>Expériences</h3>
-      <p><span class="tbd">Pas encore de mobilité internationale réalisée. Projet en réflexion — voir aussi la rubrique « Projets de mobilité internationale » dans Career development.</span></p>
+      <div class="items">
+        <div class="item"><span class="when">Juil. – août 2026</span><div><h4>Stage de recherche, Beihang University — Hangzhou, Chine</h4><p class="small">Deux mois en laboratoire sur la simulation Monte-Carlo pour la physique médicale, avec un travail entièrement mené en anglais. <span class="tbd">Ajouter ce que cette expérience t'a apporté : vie sur place, adaptation, langue, culture de travail.</span></p></div></div>
+      </div>
+      <p class="small">Voir aussi la rubrique « Projets de mobilité internationale » dans Career development.</p>
     </section>
   </article>
 
@@ -234,8 +238,9 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-si
     <section>
       <h3>Stages</h3>
       <div class="items">
-        <div class="item"><span class="when">2024</span><div><h4>Ingénieur OPC, Global SA</h4><p class="small">1 mois — suivi et pilotage de chantier (organisation et respect des délais), participation à l'élaboration et au suivi du planning d'avancement, préparation et compte-rendu de réunions de coordination.</p></div></div>
-        <div class="item"><span class="when">S6 — 2026</span><div><h4>Research Engineering Intern – Imagerie hyperspectrale, Institut de Physique de Nice (INPHYNI)</h4><p class="small">Jan. – août 2026 — définition des spécifications techniques et redesign opto-mécanique d'un prototype d'imagerie hyperspectrale active, électronique de synchronisation (Teensy 4.1) pour mesures interférométriques, essais expérimentaux sur films minces (acquisition de données, mesure d'épaisseur), validation du système et analyse de marché exploratoire.</p></div></div>
+        <div class="item"><span class="when">Juil. – août 2024</span><div><h4>Assistant ingénieur OPC, Global SA — Lyon</h4><p class="small">Suivi et pilotage de chantier (organisation et respect des délais), participation à l'élaboration et au suivi du planning d'avancement, préparation et compte-rendu de réunions de coordination.</p></div></div>
+        <div class="item"><span class="when">Janv. – juin 2026</span><div><h4>Stagiaire ingénieur – Instrumentation scientifique, INPHYNI (CNRS) — Nice</h4><p class="small">En alternance (2 semaines école / 2 semaines labo) — synchronisation temps réel sur Teensy 4.1 (C++), acquisition ADC 250 kHz par DMA, traitement du signal en Python (FFT, Hilbert) pour la mesure d'épaisseur de films minces, redesign opto-mécanique d'un prototype d'imagerie hyperspectrale.</p></div></div>
+        <div class="item"><span class="when">Juil. – août 2026</span><div><h4>Stagiaire de recherche – Simulation Monte-Carlo (physique médicale), Beihang University — Hangzhou, Chine</h4><p class="small">Simulation FLUKA d'un faisceau ¹²C (260 MeV/n) sur fantôme PMMA, dose (pic de Bragg) et activité β⁺ corrélée à la portée du faisceau (TEP), validation par comparaison à la littérature. Stage mené en anglais.</p></div></div>
         <div class="item"><span class="when">S8</span><div><h4><span class="tbd">À venir</span></h4></div></div>
       </div>
     </section>
@@ -266,11 +271,18 @@ function show(id){
     if(a.getAttribute("href")==="#"+id) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current");
   });
 }
+const nav=document.querySelector("nav");
 document.addEventListener("click",e=>{
   const a=e.target.closest('a[href^="#"]'); if(!a) return;
   e.preventDefault(); const id=a.getAttribute("href").slice(1);
-  show(id); try{history.replaceState(null,"","#"+id)}catch(_){}
+  if(location.hash!=="#"+id){try{history.pushState(null,"","#"+id)}catch(_){}}
+  show(id);
+  // remonter en haut de l'onglet si on était descendu plus bas
+  const top=document.getElementById("p-"+(ids.includes(id)?id:"welcome")).offsetTop-nav.offsetHeight;
+  if(window.scrollY>top) window.scrollTo({top,behavior:"smooth"});
 });
+// bouton « retour » du navigateur : revient à l'onglet précédent
+window.addEventListener("popstate",()=>show(location.hash.slice(1)));
 show(location.hash.slice(1));
 </script>
 </body>
