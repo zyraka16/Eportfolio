@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hugo Bouchet · ENSEEIHT e-portfolio</title>
+<meta name="description" content="E-portfolio of Hugo Bouchet, engineering student at ENSEEIHT (3EA department): embedded systems, automation, aerospace and space.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* =========================================================
+   COULEURS ET POLICE — tout le site se règle ici
+   ========================================================= */
+:root{
+  --bg:#FFFFFF; --bg-alt:#F4F6F9; --fg:#18202B; --muted:#5B6573; --line:#E2E6EC;
+  --accent:#1F3A68; --accent-soft:#E8EEF7; --on-accent:#FFFFFF; --dark:#14233F;
+  --font:"IBM Plex Sans","Segoe UI",Helvetica,Arial,sans-serif;
+  --radius:10px; --max:1080px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#11151B; --bg-alt:#171C24; --fg:#E6E9EE; --muted:#9AA3B0; --line:#262D38;
+  --accent:#8FB0E6; --accent-soft:#1C2737; --on-accent:#0E1420; --dark:#0B111C; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#11151B; --bg-alt:#171C24; --fg:#E6E9EE; --muted:#9AA3B0; --line:#262D38;
+  --accent:#8FB0E6; --accent-soft:#1C2737; --on-accent:#0E1420; --dark:#0B111C; color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+html{scroll-padding-top:80px}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 16px/1.65 var(--font)}
+h1,h2,h3,h4{margin:0;line-height:1.2;font-weight:600;text-wrap:balance}
+p{margin:0}
+a{color:var(--accent);text-underline-offset:3px}
+ul{margin:0;padding-left:18px}
+.container{max-width:var(--max);margin:0 auto;padding:0 24px}
+.muted{color:var(--muted)}
+.small{font-size:14px}
+
+/* ---------- Barre de navigation ---------- */
+.nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 92%,transparent);
+  backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--line)}
+.nav .container{display:flex;align-items:center;gap:24px;height:68px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--fg);text-decoration:none;font-weight:600;white-space:nowrap}
+.brand .mark{width:34px;height:34px;border-radius:8px;background:var(--accent);color:var(--on-accent);
+  display:grid;place-items:center;font-size:14px;font-weight:700;letter-spacing:.02em}
+.brand small{display:block;font-weight:400;font-size:12px;color:var(--muted);line-height:1.1}
+.menu{display:flex;align-items:center;gap:4px;margin-left:auto}
+.menu a{color:var(--muted);text-decoration:none;font-size:15px;padding:8px 12px;border-radius:6px;white-space:nowrap}
+.menu a:hover{color:var(--fg);background:var(--bg-alt)}
+.menu a[aria-current="page"]{color:var(--accent);font-weight:500}
+.menu a.btn{margin-left:8px}
+.menu a.lang{border:1px solid var(--line);border-radius:6px;font-size:13px;font-weight:500;padding:6px 10px;margin-left:8px}
+.burger{display:none;margin-left:auto;background:none;border:1px solid var(--line);border-radius:8px;width:42px;height:42px;
+  color:var(--fg);cursor:pointer;place-items:center}
+.burger svg{width:22px;height:22px}
+@media (max-width:920px){
+  .burger{display:grid}
+  .menu{display:none;position:absolute;left:0;right:0;top:68px;flex-direction:column;align-items:stretch;gap:0;
+    background:var(--bg);border-bottom:1px solid var(--line);padding:8px 16px 16px}
+  .menu.open{display:flex}
+  .menu a{padding:12px}
+  .menu a.btn{margin:8px 0 0;text-align:center}
+  .menu a.lang{margin:8px 0 0;padding:10px 12px;text-align:center}
+}
+
+/* ---------- Boutons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:500 15px/1 var(--font);
+  padding:12px 20px;border-radius:8px;text-decoration:none;border:1px solid transparent;cursor:pointer;white-space:nowrap}
+.btn-primary,.menu a.btn{background:var(--accent);color:var(--on-accent)}
+.btn-primary:hover,.menu a.btn:hover{background:color-mix(in srgb,var(--accent) 85%,#000);color:var(--on-accent)}
+.btn-ghost{border-color:var(--line);color:var(--fg);background:var(--bg)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn svg{width:18px;height:18px}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+
+/* ---------- Bandeaux ---------- */
+.hero{padding:72px 0 64px;background:linear-gradient(180deg,var(--accent-soft),var(--bg))}
+.hero .container{display:grid;grid-template-columns:1.4fr 1fr;gap:48px;align-items:center}
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.hero h1{font-size:clamp(36px,6vw,56px);font-weight:700;margin:12px 0 16px;letter-spacing:-.01em}
+.hero .lead{font-size:clamp(17px,2.2vw,20px);color:var(--muted);max-width:34em;margin-bottom:28px}
+.portrait{aspect-ratio:4/5;width:100%;max-width:340px;justify-self:end;border-radius:16px;background:var(--bg-alt);
+  border:1px solid var(--line);display:grid;place-items:center;color:var(--muted);font-size:14px;overflow:hidden}
+.portrait img{width:100%;height:100%;object-fit:cover}
+@media (max-width:760px){.hero .container{grid-template-columns:1fr}.portrait{justify-self:start;max-width:220px;order:-1}}
+
+.pagehead{padding:56px 0 40px;background:var(--bg-alt);border-bottom:1px solid var(--line)}
+.crumb{font-size:14px;color:var(--muted);margin-bottom:12px}
+.crumb a{color:var(--muted);text-decoration:none}
+.crumb a:hover{color:var(--accent)}
+.pagehead h1{font-size:clamp(30px,4.5vw,42px);font-weight:700}
+.pagehead p{color:var(--muted);font-size:18px;margin-top:10px;max-width:40em}
+
+/* ---------- Sections ---------- */
+.block{padding:64px 0}
+.block.alt{background:var(--bg-alt)}
+.block:not(.alt) + .block:not(.alt){padding-top:0}
+.title{margin-bottom:32px;display:grid;gap:8px}
+.card + .title{margin-top:48px}
+.title h2{font-size:clamp(24px,3.4vw,30px)}
+.title p{color:var(--muted);max-width:42em}
+.center{text-align:center;justify-items:center}
+
+.grid{display:grid;gap:20px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr))}
+
+.card{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);padding:24px;display:grid;gap:10px;align-content:start}
+.block.alt .card{background:var(--bg)}
+a.card{color:var(--fg);text-decoration:none;transition:border-color .15s,transform .15s,box-shadow .15s}
+a.card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 24px -12px rgb(20 35 63 / .25)}
+.card h3{font-size:18px}
+.card p{color:var(--muted);font-size:15px}
+.card .more{font-size:14px;font-weight:500;color:var(--accent);margin-top:4px}
+.icon{width:44px;height:44px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center}
+.icon svg{width:22px;height:22px}
+.label{font-size:13px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.chip{font-size:13px;padding:3px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.todo{font-style:italic;color:var(--muted);border:1px dashed var(--line);border-radius:6px;padding:8px 12px;font-size:14px}
+
+/* chiffres clés */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:0;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg);overflow:hidden}
+.stat{padding:22px 24px;border-right:1px solid var(--line)}
+.stat:last-child{border-right:0}
+.stat strong{display:block;font-size:30px;font-weight:700;color:var(--accent);line-height:1.1}
+.stat span{font-size:14px;color:var(--muted)}
+@media (max-width:760px){.stat{border-right:0;border-bottom:1px solid var(--line)}.stat:last-child{border-bottom:0}}
+
+/* frise (formation + expériences) */
+.timeline{position:relative;display:grid;gap:14px;padding-left:30px}
+.timeline::before{content:"";position:absolute;left:8px;top:14px;bottom:14px;width:2px;background:linear-gradient(var(--accent),var(--line))}
+.step{position:relative;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);transition:border-color .15s}
+.step::before{content:"";position:absolute;left:-28px;top:24px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:2px solid var(--accent)}
+.step.now::before{background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.step:hover,.step[open]{border-color:var(--accent)}
+.step summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:4px 16px;padding:18px 20px}
+.step summary::-webkit-details-marker{display:none}
+.step summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:var(--radius)}
+.step h3{font-size:17px}
+.step .meta{grid-column:1;font-size:14px;color:var(--muted)}
+.step .chev{grid-column:2;grid-row:1/3;align-self:center;width:20px;height:20px;color:var(--muted);transition:transform .2s}
+.step[open] .chev{transform:rotate(180deg);color:var(--accent)}
+.tag{display:inline-block;font-size:12px;font-weight:500;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:1px 9px;margin-left:8px;vertical-align:2px}
+.step .body{margin:0 20px;padding:16px 0 20px;border-top:1px solid var(--line);display:grid;gap:12px;font-size:15px}
+.step .body h4{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.step .body p{color:var(--fg)}
+
+/* listes simples */
+.list{display:grid;gap:0;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg)}
+.row{display:grid;grid-template-columns:200px 1fr;gap:16px;padding:16px 20px;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row h3{font-size:16px}
+.row p{color:var(--muted);font-size:15px}
+@media (max-width:620px){.row{grid-template-columns:1fr;gap:2px}}
+
+/* bandeau d'appel à l'action */
+.cta{background:var(--dark);color:#fff;padding:56px 0}
+.cta .container{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px}
+.cta h2{font-size:clamp(22px,3vw,28px);color:#fff}
+.cta p{color:#B8C3D6;margin-top:6px}
+.cta .btn-primary{background:#fff;color:#14233F}
+.cta .btn-primary:hover{background:#E8EEF7;color:#14233F}
+
+/* contact */
+.ccard{justify-items:center;text-align:center;padding:32px 24px}
+.ccard .icon{width:56px;height:56px;border-radius:50%}
+.ccard .val{color:var(--accent);font-size:15px;overflow-wrap:anywhere}
+.copy{font:inherit;font-size:13px;color:var(--muted);background:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;cursor:pointer}
+.copy:hover{color:var(--fg);border-color:var(--muted)}
+
+/* pied de page */
+.footer{border-top:1px solid var(--line);padding:48px 0 32px;font-size:14px;color:var(--muted)}
+.footer .cols{display:grid;grid-template-columns:2fr 1fr 1fr;gap:32px}
+.footer h4{font-size:14px;color:var(--fg);margin-bottom:10px}
+.footer ul{list-style:none;padding:0;display:grid;gap:6px}
+.footer a{color:var(--muted);text-decoration:none}
+.footer a:hover{color:var(--accent)}
+.footer .bottom{margin-top:32px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+@media (max-width:760px){.footer .cols{grid-template-columns:1fr 1fr}.footer .cols > div:first-child{grid-column:1/-1}}
+
+.page{animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.page{animation:none}a.card{transition:none}}
+</style>
+</head>
+<body>
+
+<!-- =========================================================
+     BARRE DE MENU
+     ========================================================= -->
+<header class="nav">
+  <div class="container">
+    <a class="brand" href="#accueil"><span class="mark">HB</span><span>Hugo Bouchet<small>Engineering student · ENSEEIHT</small></span></a>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <nav class="menu" id="menu" aria-label="Main menu">
+      <a href="#accueil">Home</a>
+      <a href="#formation">Education &amp; projects</a>
+      <a href="#carriere">Career</a>
+      <a href="#international">International</a>
+      <a href="#engagement">Engagement</a>
+      <a href="#activites">Activities</a>
+      <a class="lang" href="index.html" hreflang="fr" lang="fr" aria-label="Version française">FR</a>
+      <a class="btn" href="#contact">Contact me</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- =========================================================
+     ACCUEIL
+     ========================================================= -->
+<div class="page" id="p-accueil">
+  <section class="hero">
+    <div class="container">
+      <div>
+        <span class="eyebrow">Engineering student · Toulouse INP – ENSEEIHT · 3EA</span>
+        <h1>Hugo Bouchet</h1>
+        <p class="lead">As an engineering student in electronics, electrical energy and automatic control, I am interested in embedded systems and automation, with a particular attraction to the aerospace, space and defence sectors.</p>
+        <div class="btns">
+          <a class="btn btn-primary" href="#formation">Discover my background</a>
+          <a class="btn btn-ghost" href="cv/CV-Hugo-Bouchet-EN.pdf" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"/></svg>Download my CV</a>
+        </div>
+      </div>
+      <div class="portrait"><img src="Photo.jpg" alt="Hugo Bouchet"></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="container">
+      <div class="stats">
+        <div class="stat"><strong>2</strong><span>research internships in 2026</span></div>
+        <div class="stat"><strong>3 years</strong><span>of engineering bachelor's, degree completed</span></div>
+        <div class="stat"><strong>4</strong><span>languages: French, English, Italian, Chinese</span></div>
+        <div class="stat"><strong>China</strong><span>1 month of research in Hangzhou</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Fields</span><h2>What interests me</h2><p>The fields I would like to move towards during my studies.</p></div>
+      <div class="grid g3">
+        <div class="card">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg></span>
+          <h3>Embedded systems</h3>
+          <p>Programming microcontrollers to drive hardware in real time, an approach I discovered during my work-study placement at INPHYNI.</p>
+        </div>
+        <div class="card">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/><circle cx="12" cy="12" r="7"/></svg></span>
+          <h3>Industrial automation</h3>
+          <p>Designing systems that measure, control and automate processes, at the heart of my automatic control studies at ENSEEIHT.</p>
+        </div>
+        <div class="card">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c3 2.5 4.5 6 4.5 10v5h-9v-5C7.5 8 9 4.5 12 2z"/><path d="M7.5 13L4 16.5V19l3.5-1.5M16.5 13l3.5 3.5V19l-3.5-1.5"/><path d="M10 21h4"/><circle cx="12" cy="9.5" r="1.5"/></svg></span>
+          <h3>Aerospace, space &amp; defence</h3>
+          <p>Demanding sectors where embedded electronics and automatic control are essential, and which particularly appeal to me, especially in Toulouse.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt">
+    <div class="container">
+      <div class="title"><span class="eyebrow">E-portfolio</span><h2>Explore the portfolio</h2></div>
+      <div class="grid g3">
+        <a class="card" href="#formation"><h3>Education &amp; projects</h3><p>My academic background, technical projects and skills.</p><span class="more">View →</span></a>
+        <a class="card" href="#carriere"><h3>Career</h3><p>Internships, career plan, role models, CV and pitch.</p><span class="more">View →</span></a>
+        <a class="card" href="#international"><h3>International</h3><p>Languages and research internship in China.</p><span class="more">View →</span></a>
+        <a class="card" href="#engagement"><h3>Engagement</h3><p>Co-founding the student union and ecological transition.</p><span class="more">View →</span></a>
+        <a class="card" href="#activites"><h3>Activities</h3><p>Club sports, hobbies and student jobs.</p><span class="more">View →</span></a>
+        <a class="card" href="#contact"><h3>Contact</h3><p>Email, phone and LinkedIn.</p><span class="more">View →</span></a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- =========================================================
+     FORMATION & PROJETS  (Engineering course)
+     ========================================================= -->
+<div class="page" id="p-formation" hidden>
+  <section class="pagehead"><div class="container">
+    <div class="crumb"><a href="#accueil">Home</a> / Education &amp; projects</div>
+    <h1>Education &amp; projects</h1>
+    <p>My academic background, the technical projects I have carried out and the skills I have gained from them.</p>
+  </div></section>
+
+  <section class="block">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Academic background</span><h2>My education</h2><p>Click on a programme to see the details.</p></div>
+      <div class="timeline">
+        <details class="step now">
+          <summary><h3>Toulouse INP – ENSEEIHT · 3EA department<span class="tag">ongoing</span></h3><span class="meta">2026 – 2029 · Diplôme d'ingénieur (Master's-level engineering degree), 1st year · Toulouse</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="body">
+            <p>Engineering programme in the 3EA department: Electronics, Electrical Energy and Automatic Control.</p>
+            <div><h4>Main courses</h4><ul><li>Digital systems and electronics</li><li>Circuit theory</li><li>Signals and control (automatic control)</li><li>Electrical systems</li><li>Programming</li></ul></div>
+            <div><h4>Goal</h4><p>To move towards embedded systems and automation, ideally in the aerospace, space or defence sectors.</p></div>
+          </div>
+        </details>
+        <details class="step">
+          <summary><h3>Centrale Méditerranée · Bachelor</h3><span class="meta">2023 – 2026 · Responsible Engineering &amp; Digital Transformations · Nice · degree completed</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="body">
+            <p>Three-year engineering bachelor's degree focused on digital engineering, innovation and project management.</p>
+            <div><h4>Content</h4><ul><li>Multidisciplinary foundation: mathematics, physics, electronics, mechanics, computer science</li><li>Industrial team projects</li><li>Professional immersion every year</li></ul></div>
+            <div><h4>3rd year as a work-study programme</h4><p>Alternating 2 weeks at school / 2 weeks in the lab at INPHYNI (CNRS), working on a hyperspectral imaging prototype.</p></div>
+            <div><h4>Student life</h4><p>Vice-president and co-founder of the Bachelor's student union (BDE, Nice campus); elected student representative for ecological transition and sustainable development.</p></div>
+          </div>
+        </details>
+        <details class="step">
+          <summary><h3>CPGE PCSI, PSI option · Lycée Jean Perrin</h3><span class="meta">2022 – 2023 · CPGE (intensive preparatory classes for the French Grandes Écoles) · Lyon</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="body">
+            <p>One year of scientific preparatory classes.</p>
+            <div><h4>Courses</h4><ul><li>Intensive mathematics</li><li>Physics and chemistry</li><li>Engineering sciences (PSI option)</li></ul></div>
+          </div>
+        </details>
+        <details class="step">
+          <summary><h3>Baccalauréat général · Lycée Rosa Parks</h3><span class="meta">2019 – 2022 · French high school diploma, specialising in Mathematics and Physics-Chemistry</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="body"><p>Lycée Rosa Parks, Neuville-sur-Saône.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Projects</span><h2>Technical projects</h2></div>
+      <div class="grid g2">
+        <div class="card">
+          <span class="label">2026 · INPHYNI (CNRS), Nice</span>
+          <h3>Active hyperspectral imaging prototype</h3>
+          <p>Jitter-free real-time synchronisation of a 250 kHz laser, a 12.5 Hz mirror and a 12.5 kHz high-speed camera on a Teensy 4.1. 250 kHz ADC acquisition via DMA, followed by signal processing to measure the thickness of thin films (soap films). Opto-mechanical redesign of the prototype and exploratory market analysis.</p>
+          <div class="chips"><span class="chip">C++</span><span class="chip">Teensy 4.1</span><span class="chip">DMA</span><span class="chip">Python</span><span class="chip">FFT / Hilbert</span><span class="chip">Optics</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Skills</span><h2>What I have practised</h2><p>Tools and concepts covered during my studies and internships, which I keep deepening.</p></div>
+      <div class="grid g4">
+        <div class="card"><h3>Programming</h3><div class="chips">
+          <span class="chip">Python</span>
+          <span class="chip">C</span>
+          <span class="chip">Arduino</span>
+          <span class="chip">Java</span>
+          <span class="chip">SQL</span>
+        </div></div>
+        <div class="card"><h3>Electronics &amp; embedded</h3><div class="chips">
+          <span class="chip">Microcontrollers</span>
+          <span class="chip">Teensy</span>
+          <span class="chip">Real time</span>
+        </div></div>
+        <div class="card"><h3>Control &amp; signal</h3><div class="chips">
+          <span class="chip">Automatic control</span>
+          <span class="chip">Signal processing</span>
+          <span class="chip">FFT</span>
+        </div></div>
+        <div class="card"><h3>Soft skills</h3><div class="chips"><span class="chip">Autonomy</span><span class="chip">Rigour</span><span class="chip">Team spirit</span><span class="chip">Adaptability</span><span class="chip">Project management</span></div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- =========================================================
+     CARRIÈRE  (Career development)
+     ========================================================= -->
+<div class="page" id="p-carriere" hidden>
+  <section class="pagehead"><div class="container">
+    <div class="crumb"><a href="#accueil">Home</a> / Career</div>
+    <h1>Career</h1>
+    <p>My professional experience, my career plan and my documents.</p>
+    <div class="btns" style="margin-top:24px">
+      <a class="btn btn-primary" href="cv/CV-Hugo-Bouchet-EN.pdf" target="_blank" rel="noopener">CV in English</a>
+      <a class="btn btn-ghost" href="cv/CV-Hugo-Bouchet-FR.pdf" target="_blank" rel="noopener" hreflang="fr">CV in French</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/hugo-bouchet-a09409242/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div></section>
+
+  <section class="block">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Experience</span><h2>Internships</h2><p>Click on an internship to see the details.</p></div>
+      <div class="timeline">
+
+        <details class="step now">
+          <summary><h3>Research intern · Beihang University</h3><span class="meta">17 Jul – 12 Aug 2026 · Simulation for medical physics · Hangzhou, China</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="body">
+            <ul>
+              <li>Getting to grips with the FLUKA simulation software on Linux</li>
+              <li>Simulation of a carbon ion beam and comparison with a reference study</li>
+              <li>Internship conducted in English, with remote supervision</li>
+            </ul>
+            <a class="more" href="#international">See my experience in China →</a>
+          </div>
+        </details>
+
+        <details class="step">
+          <summary><h3>Engineering intern · INPHYNI (CNRS)</h3><span class="meta">Jan – Jun 2026 · Scientific instrumentation, work-study · Nice</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="body"><ul><li>Real-time synchronisation on Teensy 4.1 (C++): 250 kHz laser, mirror, high-speed camera</li><li>250 kHz ADC acquisition via DMA; signal processing in Python (FFT, Hilbert)</li><li>Opto-mechanical redesign of a hyperspectral imaging prototype</li><li>Work-study schedule: 2 weeks at school / 2 weeks in the lab</li></ul></div>
+        </details>
+        <details class="step">
+          <summary><h3>OPC assistant engineer · Global SA</h3><span class="meta">Jul – Aug 2024 · Construction site scheduling, management and coordination (OPC) · Lyon</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="body"><ul><li>Site monitoring and management: organisation and meeting deadlines</li><li>Drawing up and tracking the progress schedule</li><li>Preparing coordination meetings and writing their minutes</li></ul></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Career plan</span><h2>Where I want to go</h2></div>
+      <div class="card">
+        <p style="color:var(--fg)">I would like to move towards <strong>embedded systems</strong> and <strong>automation</strong>, preferably in the <strong>aerospace</strong>, <strong>space</strong> or <strong>defence</strong> sectors.</p>
+        <p>During my studies, I am looking for internships in these fields, in companies or in research labs, to confirm this direction and get a concrete feel for the jobs involved.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Role models</span><h2>Career paths that inspire me</h2><p>Three engineer profiles, and the international mobility opportunity each of them inspires in me.</p></div>
+      <div class="grid g3">
+        <div class="card"><span class="label">Role model 1</span><h3>Position, company</h3><p class="todo">Background, key skills, what I take away from it · related mobility opportunity.</p></div>
+        <div class="card"><span class="label">Role model 2</span><h3>Position, company</h3><p class="todo">Background, key skills, what I take away from it · related mobility opportunity.</p></div>
+        <div class="card"><span class="label">Role model 3</span><h3>Position, company</h3><p class="todo">Background, key skills, what I take away from it · related mobility opportunity.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Pitch</span><h2>Elevator pitch</h2></div>
+      <div class="card"><p>A 2 to 3-minute video presentation, in English.</p><p class="todo">Video link to be added.</p></div>
+    </div>
+  </section>
+</div>
+
+<!-- =========================================================
+     INTERNATIONAL  (International mobility)
+     ========================================================= -->
+<div class="page" id="p-international" hidden>
+  <section class="pagehead"><div class="container">
+    <div class="crumb"><a href="#accueil">Home</a> / International</div>
+    <h1>International</h1>
+    <p>My experience abroad and the languages I speak.</p>
+  </div></section>
+
+    <section class="block">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Experience abroad</span><h2>A month of research in China</h2></div>
+      <div class="card">
+        <span class="label">17 July – 12 August 2026 · Beihang University, Hangzhou</span>
+        <h3>Research internship at the BCC Lab · École Centrale de Pékin</h3>
+        <p>Research internship in simulation for medical physics, in a French-Chinese laboratory based on Beihang's international campus in Hangzhou. My first experience of living and working abroad.</p>
+
+        <div>
+          <h4 class="small" style="margin-bottom:4px">What I discovered</h4>
+          <ul class="muted small">
+            <li>A very different culture and way of life, day to day on a campus on the outskirts of Hangzhou.</li>
+            <li>The city of Hangzhou, and two weekends in Shanghai to discover one of the country's largest cities.</li>
+            <li>An easier integration thanks to my roommate, who helped me a lot to find my bearings.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="small" style="margin-bottom:4px">How I adapted</h4>
+          <ul class="muted small">
+            <li>Working in English with a Chinese supervisor, sometimes with the help of translation tools: I learned to phrase my questions as simply and precisely as possible.</li>
+            <li>Remote supervision over the summer: I had to make progress on my own, search the documentation by myself and report on my work regularly.</li>
+          </ul>
+        </div>
+
+        <p>Beyond the scientific topic, this internship above all taught me to adapt to an unfamiliar environment and to work independently within an international team. It also made me want to learn Chinese, which I have started at ENSEEIHT.</p>
+      </div>
+    </div>
+  </section>
+
+    <section class="block alt">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Languages</span><h2>Languages spoken</h2></div>
+      <div class="grid g4">
+        <div class="card"><h3>French</h3><p>Native language</p></div>
+        <div class="card"><h3>English</h3><p>B2 level · TOEIC 810</p></div>
+        <div class="card"><h3>Italian</h3><p>School level</p><span class="label">6 years of study, from middle school to the end of high school</span></div>
+        <div class="card"><h3>Chinese</h3><p>Beginner</p><span class="label">Learning at ENSEEIHT since 2026</span></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- =========================================================
+     ENGAGEMENT  (Sustainability & civic engagement)
+     ========================================================= -->
+<div class="page" id="p-engagement" hidden>
+  <section class="pagehead"><div class="container">
+    <div class="crumb"><a href="#accueil">Home</a> / Engagement</div>
+    <h1>Engagement</h1>
+    <p>Student associations, student representation and ecological transition.</p>
+  </div></section>
+
+    <section class="block">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Student associations</span><h2>Founding the Centrale Méditerranée Bachelor's student union</h2></div>
+      <div class="card">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14.5c2.3.3 3.9 2 4.5 4.5"/></svg></span>
+        <span class="label">2023 – 2026 · Centrale Méditerranée · Nice campus</span>
+        <h3>Vice-president and co-founder of the Bachelor's student union (BDE)</h3>
+        <p>In my very first year, I helped create the Bachelor's student union (Bureau des élèves), which did not yet exist on the Nice campus, together with two classmates: the president (Mathis Michelis), the treasurer (Maëlle Sirvent) and myself as vice-president.</p>
+
+        <div>
+          <h4 class="small" style="margin-bottom:4px">From creation to handover</h4>
+          <ul class="muted small">
+            <li><strong>1st year:</strong> setting up the association administratively, with a team of three.</li>
+            <li><strong>2nd year:</strong> first outings and parties organised.</li>
+            <li><strong>3rd year:</strong> with three year groups together, a richer programme: parties, events and a day of skiing, with up to twenty participants per event.</li>
+            <li>Handover to a new team, which took over the student union.</li>
+          </ul>
+        </div>
+
+        <p>On a campus of about fifty students, the main challenge was to get people involved and keep the association alive. This experience taught me to carry a project over time, from its creation to its handover, and to persevere when engagement around me is limited.</p>
+
+        <div class="chips"><span class="chip">Founding an association</span><span class="chip">Project management</span><span class="chip">Teamwork</span><span class="chip">Event organisation</span></div>
+      </div>
+    </div>
+  </section>
+
+    <section class="block alt">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Sustainable development</span><h2>Ecological transition</h2></div>
+      <div class="card">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10Z"/><path d="M2 21c0-3 1.9-5.4 5.1-6"/></svg></span>
+        <span class="label">2023 – 2026 · Centrale Méditerranée, Nice</span>
+        <h3>Elected student representative for ecological transition and sustainable development</h3>
+        <p>Representing students at the school's meetings on sustainable development, to make their voice heard on these issues.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- =========================================================
+     ACTIVITÉS  (Sport & other activities)
+     ========================================================= -->
+<div class="page" id="p-activites" hidden>
+  <section class="pagehead"><div class="container">
+    <div class="crumb"><a href="#accueil">Home</a> / Activities</div>
+    <h1>Activities</h1>
+    <p>What drives me day to day: club sports, my passions and the student jobs that helped me grow.</p>
+  </div></section>
+
+  <section class="block">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Sport</span><h2>Competitive sport</h2><p>Team sports have taught me team spirit, consistency in training and the ability to adapt to a new group.</p></div>
+      <div class="grid g2">
+        <div class="card">
+          <span class="label">Since 2023</span>
+          <h3>Volleyball</h3>
+          <div class="list" style="border:0">
+            <div class="row" style="padding:10px 0"><div><span class="label">2026 – present</span><h3 class="small">AS Toulouse INP</h3></div>
+            <p>French university championship (FFSU), after an injury.</p></div>
+            <div class="row" style="padding:10px 0"><div><span class="label">2023 – 2025</span><h3 class="small">AS Monaco</h3></div>
+            <p>Started at departmental (local) level, then moved up to pre-national level after a few months.</p></div>
+          </div>
+        </div>
+        <div class="card">
+          <span class="label">8 years in clubs</span>
+          <h3>Football</h3>
+          <div class="list" style="border:0">
+            <div class="row" style="padding:10px 0"><h3 class="small">FC Bords de Saône (FCBS)</h3><p>U20.</p></div>
+            <div class="row" style="padding:10px 0"><h3 class="small">CS Neuville (CSN)</h3><p>U16 to U18 at regional level.</p></div>
+            <div class="row" style="padding:10px 0"><h3 class="small">FC Rive Droite (FCRD)</h3><p> </p></div>
+            <div class="row" style="padding:10px 0"><h3 class="small">Monts d'Or Azergues Foot (MDA)</h3><p> </p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt">
+  <div class="container">
+
+    <div class="title"><span class="eyebrow">Passions</span>
+      <h2>Drawing</h2></div>
+    <div class="card"><p class="todo">To be completed: what you draw (sketches, portraits, comics…), since when, and one or two images.</p></div>
+
+    <div class="title"><h2>Games</h2></div>
+    <div class="card"><p>I enjoy playing online video games, especially multiplayer games such as Valorant or League of Legends, but I am also a big fan of board games and puzzle games (riddles, escape games…).</p></div>
+
+    <div class="title"><h2>Photos and videos</h2></div>
+    <div class="card"><p>I am starting to take photos and videos with a drone.</p></div>
+
+  </div>
+</section>
+
+  <section class="block">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Student jobs</span><h2>Working alongside my studies</h2><p>Seasonal and student jobs that taught me organisation, rigour and customer contact.</p></div>
+      <div class="list">
+        <div class="row"><h3>Carrefour</h3><p>Sales assistant: shelf stocking, stock monitoring, inventory and daily restocking, customer relations.</p></div>
+        <div class="row"><h3>Les Planches</h3><p>Waiter for 1.5 months: table service, handling, organising evening events.</p></div>
+        <div class="row"><h3>3R Façades</h3><p>Labourer: manual work, bookkeeping, updating the client database in Excel (contact details, appointments).</p></div>
+        <div class="row"><h3>Samada</h3><p>Order picker for 1 month: order processing and stockroom management.</p></div>
+        <div class="row"><h3>Association Saint Augustin</h3><p>Service staff: cleaning, dishwashing, organising activities, supervising children.</p></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- =========================================================
+     CONTACT
+     ========================================================= -->
+<div class="page" id="p-contact" hidden>
+  <section class="pagehead"><div class="container">
+    <div class="crumb"><a href="#accueil">Home</a> / Contact</div>
+    <h1>Contact</h1>
+    <p>An internship offer, a project or simply a question? Feel free to get in touch.</p>
+  </div></section>
+
+  <section class="block">
+    <div class="container">
+      <div class="grid g3">
+        <div class="card ccard">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+          <h3>Email</h3>
+          <a class="val" href="mailto:bouchet.hugo@outlook.fr?subject=Contact%20%E2%80%93%20e-portfolio">bouchet.hugo@outlook.fr</a>
+          <button class="copy" type="button" data-copy="bouchet.hugo@outlook.fr">Copy address</button>
+        </div>
+        <a class="card ccard" href="tel:+33782418225">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span>
+          <h3>Phone</h3>
+          <span class="val">+33 7 82 41 82 25</span>
+        </a>
+        <a class="card ccard" href="https://www.linkedin.com/in/hugo-bouchet-a09409242/" target="_blank" rel="noopener">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></span>
+          <h3>LinkedIn</h3>
+          <span class="val">View my profile</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Bandeau « Me contacter » affiché en bas de chaque page (sauf Contact) -->
+<section class="cta" id="cta">
+  <div class="container">
+    <div><h2>I am looking for an internship in embedded systems or automation</h2><p>Let's talk about your project, your company or your lab.</p></div>
+    <a class="btn btn-primary" href="#contact">Contact me</a>
+  </div>
+</section>
+
+</main>
+
+<!-- =========================================================
+     PIED DE PAGE
+     ========================================================= -->
+<footer class="footer">
+  <div class="container">
+    <div class="cols">
+      <div>
+        <a class="brand" href="#accueil"><span class="mark">HB</span><span>Hugo Bouchet<small>Engineering student · ENSEEIHT 3EA</small></span></a>
+        <p style="margin-top:12px;max-width:28em">E-portfolio created as part of the engineering programme at Toulouse INP – ENSEEIHT.</p>
+      </div>
+      <div>
+        <h4>Portfolio</h4>
+        <ul><li><a href="#formation">Education &amp; projects</a></li><li><a href="#carriere">Career</a></li><li><a href="#international">International</a></li><li><a href="#engagement">Engagement</a></li><li><a href="#activites">Activities</a></li></ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul><li><a href="mailto:bouchet.hugo@outlook.fr?subject=Contact%20%E2%80%93%20e-portfolio">bouchet.hugo@outlook.fr</a></li><li><a href="https://www.linkedin.com/in/hugo-bouchet-a09409242/" target="_blank" rel="noopener">LinkedIn</a></li><li><a href="cv/CV-Hugo-Bouchet-EN.pdf" target="_blank" rel="noopener">CV (PDF)</a></li></ul>
+      </div>
+    </div>
+    <div class="bottom"><span>© 2026 Hugo Bouchet</span><span>Updated October 2026</span></div>
+  </div>
+</footer>
+
+<script>
+const pages=["accueil","formation","carriere","international","engagement","activites","contact"];
+const titles={accueil:"ENSEEIHT e-portfolio",formation:"Education & projects",carriere:"Career",international:"International",engagement:"Engagement",activites:"Activities",contact:"Contact"};
+const menu=document.getElementById("menu"), burger=document.getElementById("burger");
+
+function show(id){
+  if(!pages.includes(id)) id="accueil";
+  pages.forEach(p=>{document.getElementById("p-"+p).hidden=(p!==id)});
+  document.querySelectorAll("#menu a").forEach(a=>{
+    if(a.getAttribute("href")==="#"+id) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current");
+  });
+  document.getElementById("cta").hidden=(id==="contact");
+  document.title="Hugo Bouchet · "+titles[id];
+  menu.classList.remove("open"); burger.setAttribute("aria-expanded","false");
+}
+
+document.addEventListener("click",e=>{
+  const a=e.target.closest('a[href^="#"]'); if(!a) return;
+  const id=a.getAttribute("href").slice(1); if(!pages.includes(id)) return;
+  e.preventDefault();
+  if(location.hash!=="#"+id){try{history.pushState(null,"","#"+id)}catch(_){}}
+  show(id); window.scrollTo(0,0);
+});
+window.addEventListener("popstate",()=>{show(location.hash.slice(1)); window.scrollTo(0,0)});
+
+burger.addEventListener("click",()=>{
+  const open=menu.classList.toggle("open"); burger.setAttribute("aria-expanded",open);
+});
+
+// Le lien de langue garde la page en cours (ex. en.html#carriere → index.html#carriere)
+document.querySelectorAll("a.lang").forEach(a=>a.addEventListener("click",()=>{
+  a.href=a.getAttribute("href").split("#")[0]+location.hash;
+}));
+
+document.addEventListener("click",e=>{
+  const b=e.target.closest(".copy"); if(!b) return;
+  const t=b.textContent;
+  try{navigator.clipboard.writeText(b.dataset.copy).then(()=>{b.textContent="Address copied ✓";setTimeout(()=>b.textContent=t,1800)},()=>{})}catch(_){}
+});
+
+show(location.hash.slice(1));
+</script>
+</body>
+</html>
