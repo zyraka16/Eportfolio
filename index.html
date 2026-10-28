@@ -3,399 +3,653 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>E-portfolio N7</title>
+<title>Hugo Bouchet · E-portfolio ENSEEIHT</title>
+<meta name="description" content="E-portfolio de Hugo Bouchet, élève ingénieur ENSEEIHT 3EA : instrumentation scientifique, électronique embarquée, traitement du signal.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: colonne unique centrée, en-tête simple, onglets soulignés, sections aérées */
+/* =========================================================
+   COULEURS ET POLICE — tout le site se règle ici
+   ========================================================= */
 :root{
-  --bg:#FFFFFF; --fg:#1B1F24; --muted:#5F6670; --line:#E3E5E8; --soft:#F5F6F7; --accent:#1F3A68;
-  --font:"IBM Plex Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+  --bg:#FFFFFF; --bg-alt:#F4F6F9; --fg:#18202B; --muted:#5B6573; --line:#E2E6EC;
+  --accent:#1F3A68; --accent-soft:#E8EEF7; --on-accent:#FFFFFF; --dark:#14233F;
+  --font:"IBM Plex Sans","Segoe UI",Helvetica,Arial,sans-serif;
+  --radius:10px; --max:1080px;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#131518; --fg:#E6E8EB; --muted:#9AA1AB; --line:#2A2E34; --soft:#1B1E22; --accent:#9DB4E0; color-scheme:dark}}
+  --bg:#11151B; --bg-alt:#171C24; --fg:#E6E9EE; --muted:#9AA3B0; --line:#262D38;
+  --accent:#8FB0E6; --accent-soft:#1C2737; --on-accent:#0E1420; --dark:#0B111C; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#131518; --fg:#E6E8EB; --muted:#9AA1AB; --line:#2A2E34; --soft:#1B1E22; --accent:#9DB4E0; color-scheme:dark}
+  --bg:#11151B; --bg-alt:#171C24; --fg:#E6E9EE; --muted:#9AA3B0; --line:#262D38;
+  --accent:#8FB0E6; --accent-soft:#1C2737; --on-accent:#0E1420; --dark:#0B111C; color-scheme:dark}
 
 *{box-sizing:border-box}
-[hidden]{display:none !important} /* sinon .panel{display:grid} affiche tous les onglets en même temps */
-body{background:var(--bg);color:var(--fg);font:400 16px/1.65 var(--font);padding:0 16px}
-.wrap{max-width:820px;margin:0 auto;padding-block:48px 72px}
-h1,h2,h3,h4{margin:0;font-weight:600;line-height:1.25;text-wrap:balance}
+[hidden]{display:none !important}
+html{scroll-padding-top:80px}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 16px/1.65 var(--font)}
+h1,h2,h3,h4{margin:0;line-height:1.2;font-weight:600;text-wrap:balance}
 p{margin:0}
 a{color:var(--accent);text-underline-offset:3px}
-.small{font-size:14px;color:var(--muted)}
-.eyebrow{font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-
-/* En-tête */
-.top{display:flex;gap:24px;align-items:center;flex-wrap:wrap}
-.photo{width:96px;height:96px;border-radius:50%;background:var(--soft);border:1px solid var(--line);
-  display:grid;place-items:center;font-size:12px;color:var(--muted);flex:none}
-.id{display:grid;gap:6px;min-width:0;flex:1}
-.id h1{font-size:clamp(28px,4.5vw,36px)}
-.id p{color:var(--muted)}
-.links{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:15px;margin-top:4px}
-
-/* Accueil : cartes cliquables vers chaque section */
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
-.tile{display:grid;gap:4px;padding:18px;border:1px solid var(--line);border-radius:6px;color:var(--fg);text-decoration:none;transition:border-color .15s,background .15s}
-.tile:hover{border-color:var(--accent);background:var(--soft)}
-.tile strong{font-weight:600}
-.tile span{font-size:14px;color:var(--muted)}
-.tile strong::after{content:" →";color:var(--accent)}
-.tile:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-
-/* Page de section : barre en haut (retour + changer de section) */
-.bar{position:sticky;top:0;z-index:2;background:var(--bg);border-bottom:1px solid var(--line);
-  display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;padding:12px 0}
-.bar .back{font-weight:500;text-decoration:none;white-space:nowrap}
-.bar .who{font-size:14px;color:var(--muted);margin-right:auto}
-.switch{display:flex;flex-wrap:wrap;gap:6px}
-.switch a{font-size:13px;padding:4px 10px;border:1px solid var(--line);border-radius:999px;color:var(--muted);text-decoration:none;white-space:nowrap}
-.switch a:hover{color:var(--fg);border-color:var(--muted)}
-.switch a[aria-current="page"]{color:var(--bg);background:var(--accent);border-color:var(--accent)}
-
-/* Bas de page de section : précédent / suivant */
-.pager{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:48px}
-.pager a{display:grid;gap:2px;padding:14px 16px;border:1px solid var(--line);border-radius:6px;text-decoration:none;color:var(--fg)}
-.pager a:hover{border-color:var(--accent)}
-.pager a span{font-size:13px;color:var(--muted)}
-.pager .next{text-align:right;grid-column:2}
-
-.panel{padding-top:36px;display:grid;gap:40px}
-.panel > header{display:grid;gap:6px}
-.panel > header h2{font-size:26px}
-.panel > header p{color:var(--muted)}
-section{display:grid;gap:14px}
-section > h3{font-size:18px;padding-bottom:8px;border-bottom:1px solid var(--line)}
-
-.items{display:grid;gap:18px}
-.item{display:grid;grid-template-columns:120px 1fr;gap:16px}
-.item .when{font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
-.item h4{font-size:16px}
-.item > div{display:grid;gap:4px;min-width:0}
-.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:18px}
-.cols > div{display:grid;gap:4px;align-content:start}
-
-.tbd{color:var(--muted);font-style:italic;background:var(--soft);padding:2px 6px;border-radius:3px}
-.note{background:var(--soft);padding:14px 16px;border-radius:4px;font-size:15px;color:var(--muted)}
-
 ul{margin:0;padding-left:18px}
-li{margin:2px 0}
-.checklist{list-style:none;padding:0;display:grid}
-.checklist li{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid var(--line);margin:0}
-.checklist li:last-child{border-bottom:0}
-.checklist span:last-child{font-size:13px;color:var(--muted);white-space:nowrap}
+.container{max-width:var(--max);margin:0 auto;padding:0 24px}
+.muted{color:var(--muted)}
+.small{font-size:14px}
 
-footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-size:14px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+/* ---------- Barre de navigation ---------- */
+.nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 92%,transparent);
+  backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--line)}
+.nav .container{display:flex;align-items:center;gap:24px;height:68px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--fg);text-decoration:none;font-weight:600;white-space:nowrap}
+.brand .mark{width:34px;height:34px;border-radius:8px;background:var(--accent);color:var(--on-accent);
+  display:grid;place-items:center;font-size:14px;font-weight:700;letter-spacing:.02em}
+.brand small{display:block;font-weight:400;font-size:12px;color:var(--muted);line-height:1.1}
+.menu{display:flex;align-items:center;gap:4px;margin-left:auto}
+.menu a{color:var(--muted);text-decoration:none;font-size:15px;padding:8px 12px;border-radius:6px;white-space:nowrap}
+.menu a:hover{color:var(--fg);background:var(--bg-alt)}
+.menu a[aria-current="page"]{color:var(--accent);font-weight:500}
+.menu a.btn{margin-left:8px}
+.burger{display:none;margin-left:auto;background:none;border:1px solid var(--line);border-radius:8px;width:42px;height:42px;
+  color:var(--fg);cursor:pointer;place-items:center}
+.burger svg{width:22px;height:22px}
+@media (max-width:920px){
+  .burger{display:grid}
+  .menu{display:none;position:absolute;left:0;right:0;top:68px;flex-direction:column;align-items:stretch;gap:0;
+    background:var(--bg);border-bottom:1px solid var(--line);padding:8px 16px 16px}
+  .menu.open{display:flex}
+  .menu a{padding:12px}
+  .menu a.btn{margin:8px 0 0;text-align:center}
+}
 
-.contact-head{text-align:center;display:grid;gap:8px;padding-top:12px}
-.contact-head h2{font-size:30px}
-.contact-head p{color:var(--muted)}
-.contact-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px}
-.ccard{display:grid;justify-items:center;gap:10px;text-align:center;padding:28px 18px;border:1px solid var(--line);border-radius:10px;color:var(--fg);text-decoration:none;transition:border-color .15s,transform .15s}
-a.ccard:hover{border-color:var(--accent);transform:translateY(-2px)}
-.ccard .ic{width:56px;height:56px;border-radius:50%;background:var(--soft);display:grid;place-items:center;color:var(--accent)}
-.ccard .ic svg{width:24px;height:24px}
-.ccard strong{font-size:17px;font-weight:600}
-.ccard .val{font-size:14px;color:var(--accent);overflow-wrap:anywhere}
+/* ---------- Boutons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:500 15px/1 var(--font);
+  padding:12px 20px;border-radius:8px;text-decoration:none;border:1px solid transparent;cursor:pointer;white-space:nowrap}
+.btn-primary,.menu a.btn{background:var(--accent);color:var(--on-accent)}
+.btn-primary:hover,.menu a.btn:hover{background:color-mix(in srgb,var(--accent) 85%,#000);color:var(--on-accent)}
+.btn-ghost{border-color:var(--line);color:var(--fg);background:var(--bg)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn svg{width:18px;height:18px}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+
+/* ---------- Bandeaux ---------- */
+.hero{padding:72px 0 64px;background:linear-gradient(180deg,var(--accent-soft),var(--bg))}
+.hero .container{display:grid;grid-template-columns:1.4fr 1fr;gap:48px;align-items:center}
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.hero h1{font-size:clamp(36px,6vw,56px);font-weight:700;margin:12px 0 16px;letter-spacing:-.01em}
+.hero .lead{font-size:clamp(17px,2.2vw,20px);color:var(--muted);max-width:34em;margin-bottom:28px}
+.portrait{aspect-ratio:4/5;width:100%;max-width:340px;justify-self:end;border-radius:16px;background:var(--bg-alt);
+  border:1px solid var(--line);display:grid;place-items:center;color:var(--muted);font-size:14px;overflow:hidden}
+.portrait img{width:100%;height:100%;object-fit:cover}
+@media (max-width:760px){.hero .container{grid-template-columns:1fr}.portrait{justify-self:start;max-width:220px;order:-1}}
+
+.pagehead{padding:56px 0 40px;background:var(--bg-alt);border-bottom:1px solid var(--line)}
+.crumb{font-size:14px;color:var(--muted);margin-bottom:12px}
+.crumb a{color:var(--muted);text-decoration:none}
+.crumb a:hover{color:var(--accent)}
+.pagehead h1{font-size:clamp(30px,4.5vw,42px);font-weight:700}
+.pagehead p{color:var(--muted);font-size:18px;margin-top:10px;max-width:40em}
+
+/* ---------- Sections ---------- */
+.block{padding:64px 0}
+.block.alt{background:var(--bg-alt)}
+.block:not(.alt) + .block:not(.alt){padding-top:0}
+.title{margin-bottom:32px;display:grid;gap:8px}
+.title h2{font-size:clamp(24px,3.4vw,30px)}
+.title p{color:var(--muted);max-width:42em}
+.center{text-align:center;justify-items:center}
+
+.grid{display:grid;gap:20px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr))}
+
+.card{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);padding:24px;display:grid;gap:10px;align-content:start}
+.block.alt .card{background:var(--bg)}
+a.card{color:var(--fg);text-decoration:none;transition:border-color .15s,transform .15s,box-shadow .15s}
+a.card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 24px -12px rgb(20 35 63 / .25)}
+.card h3{font-size:18px}
+.card p{color:var(--muted);font-size:15px}
+.card .more{font-size:14px;font-weight:500;color:var(--accent);margin-top:4px}
+.icon{width:44px;height:44px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center}
+.icon svg{width:22px;height:22px}
+.label{font-size:13px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.chip{font-size:13px;padding:3px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.todo{font-style:italic;color:var(--muted);border:1px dashed var(--line);border-radius:6px;padding:8px 12px;font-size:14px}
+
+/* chiffres clés */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:0;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg);overflow:hidden}
+.stat{padding:22px 24px;border-right:1px solid var(--line)}
+.stat:last-child{border-right:0}
+.stat strong{display:block;font-size:30px;font-weight:700;color:var(--accent);line-height:1.1}
+.stat span{font-size:14px;color:var(--muted)}
+@media (max-width:760px){.stat{border-right:0;border-bottom:1px solid var(--line)}.stat:last-child{border-bottom:0}}
+
+/* frise (formation + expériences) */
+.timeline{position:relative;display:grid;gap:14px;padding-left:30px}
+.timeline::before{content:"";position:absolute;left:8px;top:14px;bottom:14px;width:2px;background:linear-gradient(var(--accent),var(--line))}
+.step{position:relative;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);transition:border-color .15s}
+.step::before{content:"";position:absolute;left:-28px;top:24px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:2px solid var(--accent)}
+.step.now::before{background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.step:hover,.step[open]{border-color:var(--accent)}
+.step summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:4px 16px;padding:18px 20px}
+.step summary::-webkit-details-marker{display:none}
+.step summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:var(--radius)}
+.step h3{font-size:17px}
+.step .meta{grid-column:1;font-size:14px;color:var(--muted)}
+.step .chev{grid-column:2;grid-row:1/3;align-self:center;width:20px;height:20px;color:var(--muted);transition:transform .2s}
+.step[open] .chev{transform:rotate(180deg);color:var(--accent)}
+.tag{display:inline-block;font-size:12px;font-weight:500;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:1px 9px;margin-left:8px;vertical-align:2px}
+.step .body{margin:0 20px;padding:16px 0 20px;border-top:1px solid var(--line);display:grid;gap:12px;font-size:15px}
+.step .body h4{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.step .body p{color:var(--fg)}
+
+/* langues */
+.lang{display:grid;gap:8px}
+.bar{height:6px;border-radius:99px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:99px}
+
+/* listes simples */
+.list{display:grid;gap:0;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg)}
+.row{display:grid;grid-template-columns:200px 1fr;gap:16px;padding:16px 20px;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row h3{font-size:16px}
+.row p{color:var(--muted);font-size:15px}
+@media (max-width:620px){.row{grid-template-columns:1fr;gap:2px}}
+
+/* bandeau d'appel à l'action */
+.cta{background:var(--dark);color:#fff;padding:56px 0}
+.cta .container{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px}
+.cta h2{font-size:clamp(22px,3vw,28px);color:#fff}
+.cta p{color:#B8C3D6;margin-top:6px}
+.cta .btn-primary{background:#fff;color:#14233F}
+.cta .btn-primary:hover{background:#E8EEF7;color:#14233F}
+
+/* contact */
+.ccard{justify-items:center;text-align:center;padding:32px 24px}
+.ccard .icon{width:56px;height:56px;border-radius:50%}
+.ccard .val{color:var(--accent);font-size:15px;overflow-wrap:anywhere}
 .copy{font:inherit;font-size:13px;color:var(--muted);background:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;cursor:pointer}
 .copy:hover{color:var(--fg);border-color:var(--muted)}
 
-@media (max-width:560px){.item{grid-template-columns:1fr;gap:2px}}
+/* pied de page */
+.footer{border-top:1px solid var(--line);padding:48px 0 32px;font-size:14px;color:var(--muted)}
+.footer .cols{display:grid;grid-template-columns:2fr 1fr 1fr;gap:32px}
+.footer h4{font-size:14px;color:var(--fg);margin-bottom:10px}
+.footer ul{list-style:none;padding:0;display:grid;gap:6px}
+.footer a{color:var(--muted);text-decoration:none}
+.footer a:hover{color:var(--accent)}
+.footer .bottom{margin-top:32px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+@media (max-width:760px){.footer .cols{grid-template-columns:1fr 1fr}.footer .cols > div:first-child{grid-column:1/-1}}
+
+.page{animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.page{animation:none}a.card{transition:none}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header class="top" id="top">
-    <div class="photo">Photo</div>
-    <div class="id">
-      <h1>Hugo Bouchet</h1>
-      <p>Élève ingénieur à Toulouse INP – ENSEEIHT · département 3EA (Électronique, Énergie Électrique et Automatique)</p>
-      <div class="links">
-        <a href="#career">CV (FR / EN)</a>
-        <a href="https://www.linkedin.com/in/hugo-bouchet-a09409242/" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="#contact">Contact</a>
-        <a href="#career">Pitch vidéo</a>
-      </div>
-    </div>
-  </header>
 
-  <div class="bar" id="bar" hidden>
-    <a class="back" href="#welcome">← Accueil</a>
-    <span class="who">Hugo Bouchet · e-portfolio</span>
-    <div class="switch" aria-label="Changer de section">
-      <a href="#engineering">Engineering</a>
-      <a href="#mobility">Mobility</a>
-      <a href="#sustainability">Sustainability</a>
-      <a href="#sport">Sport</a>
-      <a href="#career">Career</a>
-      <a href="#contact">Contact</a>
-    </div>
+<!-- =========================================================
+     BARRE DE MENU
+     ========================================================= -->
+<header class="nav">
+  <div class="container">
+    <a class="brand" href="#accueil"><span class="mark">HB</span><span>Hugo Bouchet<small>Élève ingénieur · ENSEEIHT</small></span></a>
+    <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <nav class="menu" id="menu" aria-label="Menu principal">
+      <a href="#accueil">Accueil</a>
+      <a href="#formation">Formation &amp; projets</a>
+      <a href="#carriere">Carrière</a>
+      <a href="#international">International</a>
+      <a href="#engagement">Engagement</a>
+      <a href="#activites">Activités</a>
+      <a class="btn" href="#contact">Me contacter</a>
+    </nav>
   </div>
+</header>
 
-  <!-- WELCOME -->
-  <div style="height:36px" id="gap"></div>
-  <article class="panel" id="p-welcome">
-    <header>
-      <h2>Bienvenue</h2>
-      <p>Ce portfolio présente mon parcours à l'ENSEEIHT, mes projets et mon projet professionnel.</p>
-    </header>
-    <section>
-      <h3>À propos</h3>
-      <p>Élève ingénieur en 1ère année du département 3EA à l'ENSEEIHT, après un Bachelor Ingénierie Responsable &amp; Transformations Digitales à Centrale Méditerranée (Nice) et une année de prépa PCSI (option PSI). Je m'intéresse particulièrement à l'électronique, l'instrumentation scientifique et le traitement du signal, domaines que j'ai approfondis lors de deux stages de recherche en 2026 : en instrumentation pour l'imagerie hyperspectrale à l'INPHYNI (CNRS, Nice), puis en simulation Monte-Carlo pour la physique médicale à Beihang University (Hangzhou, Chine). Curieux et autonome, je recherche aujourd'hui un stage dans l'instrumentation scientifique ou l'électronique embarquée.</p>
-    </section>
-    <section>
-      <h3>En ce moment</h3>
-      <div class="cols">
-        <div><span class="eyebrow">Projet en cours</span><p><span class="tbd">Premier semestre à l'ENSEEIHT — à compléter avec les projets du département 3EA</span></p></div>
-        <div><span class="eyebrow">Recherche</span><p>Stage en instrumentation scientifique / électronique embarquée</p></div>
-        <div><span class="eyebrow">Centres d'intérêt</span><p>Volley-ball, football, dessin, transition écologique</p></div>
-      </div>
-    </section>
-    <section>
-      <h3>Explorer le portfolio</h3>
-      <div class="tiles">
-        <a class="tile" href="#engineering"><strong>Engineering course</strong><span>Formation, projets et compétences</span></a>
-        <a class="tile" href="#mobility"><strong>International mobility</strong><span>Langues et stage en Chine</span></a>
-        <a class="tile" href="#sustainability"><strong>Sustainability</strong><span>Engagement écologique et citoyen</span></a>
-        <a class="tile" href="#sport"><strong>Sport &amp; activities</strong><span>Sport, passions, jobs étudiants</span></a>
-        <a class="tile" href="#career"><strong>Career development</strong><span>CV, stages, role models, pitch</span></a>
-        <a class="tile" href="#contact"><strong>Contact</strong><span>Email, téléphone, LinkedIn</span></a>
-      </div>
-    </section>
-  </article>
+<main>
 
-  <!-- ENGINEERING -->
-  <article class="panel" id="p-engineering" hidden>
-    <header>
-      <h2>Engineering course</h2>
-      <p>Formation, projets et compétences.</p>
-    </header>
-    <section>
-      <h3>Formation</h3>
-      <div class="items">
-        <div class="item"><span class="when">2026 – 2029</span><div><h4>Diplôme d'ingénieur, Toulouse INP – ENSEEIHT</h4><p class="small">Département 3EA (Électronique, Énergie Électrique et Automatique) — systèmes numériques, circuits, signal et commande, programmation</p></div></div>
-        <div class="item"><span class="when">2023 – 2026</span><div><h4>Bachelor Ingénierie Responsable &amp; Transformations Digitales</h4><p class="small">Centrale Méditerranée, Nice — formation pluridisciplinaire (mathématiques, physique, informatique, électronique, mécanique), orientée ingénierie numérique, innovation et gestion de projet ; 3e année en alternance école / laboratoire</p></div></div>
-        <div class="item"><span class="when">2022 – 2023</span><div><h4>Classe préparatoire PCSI, option PSI (CPGE)</h4><p class="small">Lycée Jean Perrin, Lyon — mathématiques, physique, sciences de l'ingénieur</p></div></div>
-        <div class="item"><span class="when">2019 – 2022</span><div><h4>Baccalauréat général, spécialités Mathématiques, Physique-Chimie</h4><p class="small">Lycée Rosa Parks, Neuville-sur-Saône — mention assez bien</p></div></div>
+<!-- =========================================================
+     ACCUEIL
+     ========================================================= -->
+<div class="page" id="p-accueil">
+  <section class="hero">
+    <div class="container">
+      <div>
+        <span class="eyebrow">Élève ingénieur · Toulouse INP – ENSEEIHT · 3EA</span>
+        <h1>Hugo Bouchet</h1>
+        <p class="lead">Je me forme à l'électronique, à l'instrumentation scientifique et au traitement du signal, avec deux stages de recherche en 2026, en France et en Chine.</p>
+        <div class="btns">
+          <a class="btn btn-primary" href="#formation">Découvrir mon parcours</a>
+          <a class="btn btn-ghost" href="cv/CV-Hugo-Bouchet-FR.pdf" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"/></svg>Télécharger mon CV</a>
+        </div>
       </div>
-    </section>
-    <section>
-      <h3>Projets</h3>
-      <div class="items">
-        <div class="item"><span class="when">2026</span><div><h4>Prototype d'imagerie hyperspectrale active</h4><p class="small">Institut de Physique de Nice (INPHYNI, CNRS) — synchronisation temps réel sur Teensy 4.1 en C++ (laser 250 kHz, miroir 12,5 Hz, caméra rapide 12,5 kHz, sans gigue), acquisition ADC à 250 kHz par DMA, traitement du signal en Python (FFT, transformée de Hilbert) pour mesurer l'épaisseur de films minces (films de savon), redesign opto-mécanique du prototype et analyse de marché exploratoire.</p></div></div>
-        <div class="item"><span class="when">2026</span><div><h4>Simulation Monte-Carlo d'un faisceau d'ions carbone (hadronthérapie)</h4><p class="small">Beihang University, Hangzhou (Chine) — simulation FLUKA d'un faisceau ¹²C à 260 MeV/n sur fantôme PMMA (Linux, Flair), calcul de la dose (pic de Bragg) et de l'activité β⁺ corrélée à la portée du faisceau pour la TEP en ligne, validation par comparaison à la littérature. Projet mené en anglais.</p></div></div>
-        <div class="item"><span class="when">—</span><div><h4><span class="tbd">Projet 3 (département 3EA)</span></h4><p class="small">À compléter avec un projet du département une fois réalisé.</p></div></div>
-      </div>
-    </section>
-    <section>
-      <h3>Compétences</h3>
-      <div class="cols">
-        <div><span class="eyebrow">Techniques</span><p>Python (traitement du signal), C++ embarqué (Teensy 4.1), Java, SQL · simulation Monte-Carlo (FLUKA, Flair), Linux · électronique et instrumentation scientifique (synchronisation temps réel, acquisition DMA, mesures interférométriques) · mathématiques et physique de l'ingénieur (mécanique, électromagnétisme) · modélisation de systèmes et automatique (niveau académique)</p></div>
-        <div><span class="eyebrow">Transversales</span><p>Gestion de projet — illustrée par le rôle d'élu transition écologique et développement durable à Centrale Méditerranée · esprit d'équipe et capacité d'adaptation — illustrés par le sport collectif en compétition (volley, football) · autonomie et rigueur — illustrées par les stages de recherche à l'INPHYNI et à Beihang University · travail en anglais en contexte international — stage en Chine</p></div>
-      </div>
-    </section>
-  </article>
-
-  <!-- MOBILITY -->
-  <article class="panel" id="p-mobility" hidden>
-    <header>
-      <h2>International mobility</h2>
-      <p>Langues et expériences à l'international.</p>
-    </header>
-    <section>
-      <h3>Langues</h3>
-      <div class="cols">
-        <div><span class="eyebrow">Français</span><p>Langue maternelle</p></div>
-        <div><span class="eyebrow">Anglais</span><p>B1-B2</p></div>
-        <div><span class="eyebrow">Italien</span><p>A2-B1</p></div>
-        <div><span class="eyebrow">Chinois</span><p>Débutant</p></div>
-      </div>
-    </section>
-    <section>
-      <h3>Expériences</h3>
-      <div class="items">
-        <div class="item"><span class="when">Juil. – août 2026</span><div><h4>Stage de recherche, Beihang University — Hangzhou, Chine</h4><p class="small">Deux mois en laboratoire sur la simulation Monte-Carlo pour la physique médicale, avec un travail entièrement mené en anglais. <span class="tbd">Ajouter ce que cette expérience t'a apporté : vie sur place, adaptation, langue, culture de travail.</span></p></div></div>
-      </div>
-      <p class="small">Voir aussi la rubrique « Projets de mobilité internationale » dans Career development.</p>
-    </section>
-  </article>
-
-  <!-- SUSTAINABILITY -->
-  <article class="panel" id="p-sustainability" hidden>
-    <header>
-      <h2>Sustainability &amp; civic engagement</h2>
-      <p>Engagement associatif, citoyen et environnemental.</p>
-    </header>
-    <section>
-      <h3>Engagements</h3>
-      <div class="items">
-        <div class="item"><span class="when">2023 – 2026</span><div><h4>Élu transition écologique et développement durable</h4><p class="small">Centrale Méditerranée, Nice — représentation des étudiants et participation aux actions de transition écologique de l'école.</p></div></div>
-      </div>
-    </section>
-  </article>
-
-  <!-- SPORT & ACTIVITÉS -->
-  <article class="panel" id="p-sport" hidden>
-    <header>
-      <h2>Sport &amp; activities</h2>
-      <p>Ce que je fais en dehors des cours : sport en club, passions et jobs étudiants.</p>
-    </header>
-    <section>
-      <h3>Sport</h3>
-      <div class="items">
-        <div class="item"><span class="when">Depuis 2023</span><div>
-          <h4>Volley-ball</h4>
-          <p class="small">
-          <strong>2026 – aujourd'hui · AS Toulouse INP</strong> — championnat universitaire FFSU, après une blessure.
-          <br><strong>2023 – 2025 · AS Monaco</strong> — débuts en départemental, puis montée en pré-national après quelques mois.
-        </p></div></div>
-        <div class="item"><span class="when">8 ans</span><div>
-          <h4>Football en club</h4>
-          <p class="small">
-          <strong>FC Bords de Saône</strong> — U20.
-          <br><strong>CS Neuville (CSN) </strong>  — U16 à U18 en Régional.
-          <br><strong>FC Rive Droite
-          <br><strong>Monts d'Or Azergues Foot (MDA)</strong>  — Début en club en Départemental 1.
-        </p></div></div>
-      </div>
-      <p class="note">Le sport collectif en compétition m'a appris l'esprit d'équipe, la régularité à l'entraînement et la capacité à m'adapter à un nouveau groupe.</p>
-    </section>
-    <section>
-      <h3>Passions</h3>
-      <div class="items">
-        <div class="item"><span class="when">Dessin</span><div><p class="small"><span class="tbd">Ce que tu dessines (croquis, portraits, BD…), depuis quand, et éventuellement une ou deux images.</span></p></div></div>
-      </div>
-    </section>
-    <section>
-      <h3>Jobs étudiants</h3>
-      <p class="small">En parallèle de mes études, des emplois saisonniers et étudiants qui m'ont appris l'organisation, la rigueur et le contact client.</p>
-      <div class="items">
-        <div class="item"><span class="when">Commerce</span><div><h4>Employé commercial — Carrefour</h4><p class="small">Mise en rayon, suivi des stocks, inventaire et réassort quotidien, relation client.</p></div></div>
-        <div class="item"><span class="when">1,5 mois</span><div><h4>Serveur — Les Planches</h4><p class="small">Service, manutention, organisation des soirées.</p></div></div>
-        <div class="item"><span class="when">Bâtiment</span><div><h4>Ouvrier — 3R Façades</h4><p class="small">Travaux manuels, comptabilité, gestion de répertoire.</p></div></div>
-        <div class="item"><span class="when">1 mois</span><div><h4>Préparateur de commandes — Samada</h4><p class="small">Gestion et organisation des commandes et des stocks en réserve.</p></div></div>
-        <div class="item"><span class="when">Animation</span><div><h4>Personnel de service — Association Saint Augustin</h4><p class="small">Ménage, plonge, organisation des activités, encadrement d'enfants.</p></div></div>
-      </div>
-    </section>
-  </article>
-
-  <!-- CAREER -->
-  <article class="panel" id="p-career" hidden>
-    <header>
-      <h2>Career development</h2>
-      <p>Projet professionnel, CV, pitch, role models et projets de mobilité.</p>
-    </header>
-    <section>
-      <h3>Documents</h3>
-      <ul class="checklist">
-        <li><span>CV en français</span><a href="cv/CV-Hugo-Bouchet-FR.pdf" target="_blank" rel="noopener">voir le PDF</a></li>
-        <li><span>CV in English</span><a href="cv/CV-Hugo-Bouchet-EN.pdf" target="_blank" rel="noopener">voir le PDF</a></li>
-        <li><span>LinkedIn</span><a href="https://www.linkedin.com/in/hugo-bouchet-a09409242/" target="_blank" rel="noopener">voir le profil</a></li>
-        <li><span>Elevator pitch (EN, 2–3 min)</span><span class="tbd">lien vidéo</span></li>
-      </ul>
-    </section>
-    <section>
-      <h3>Role models</h3>
-      <div class="items">
-        <div class="item"><span class="when">1</span><div><h4><span class="tbd">Poste, entreprise</span></h4><p class="small">Parcours, compétences clés, ce que j'en retiens.</p></div></div>
-        <div class="item"><span class="when">2</span><div><h4><span class="tbd">Poste, entreprise</span></h4><p class="small">Parcours, compétences clés, ce que j'en retiens.</p></div></div>
-        <div class="item"><span class="when">3</span><div><h4><span class="tbd">Poste, entreprise</span></h4><p class="small">Parcours, compétences clés, ce que j'en retiens.</p></div></div>
-      </div>
-    </section>
-    <section>
-      <h3>Projets de mobilité internationale</h3>
-      <div class="items">
-        <div class="item"><span class="when">Role model 1</span><div><h4><span class="tbd">Pays, établissement ou entreprise</span></h4><p class="small">Type de mobilité et lien avec ce profil.</p></div></div>
-        <div class="item"><span class="when">Role model 2</span><div><h4><span class="tbd">Pays, établissement ou entreprise</span></h4><p class="small">Type de mobilité et lien avec ce profil.</p></div></div>
-        <div class="item"><span class="when">Role model 3</span><div><h4><span class="tbd">Pays, établissement ou entreprise</span></h4><p class="small">Type de mobilité et lien avec ce profil.</p></div></div>
-      </div>
-    </section>
-    <section>
-      <h3>Stages</h3>
-      <div class="items">
-        <div class="item"><span class="when">Juil. – août 2024</span><div><h4>Assistant ingénieur OPC, Global SA — Lyon</h4><p class="small">Suivi et pilotage de chantier (organisation et respect des délais), participation à l'élaboration et au suivi du planning d'avancement, préparation et compte-rendu de réunions de coordination.</p></div></div>
-        <div class="item"><span class="when">Janv. – juin 2026</span><div><h4>Stagiaire ingénieur – Instrumentation scientifique, INPHYNI (CNRS) — Nice</h4><p class="small">En alternance (2 semaines école / 2 semaines labo) — synchronisation temps réel sur Teensy 4.1 (C++), acquisition ADC 250 kHz par DMA, traitement du signal en Python (FFT, Hilbert) pour la mesure d'épaisseur de films minces, redesign opto-mécanique d'un prototype d'imagerie hyperspectrale.</p></div></div>
-        <div class="item"><span class="when">Juil. – août 2026</span><div><h4>Stagiaire de recherche – Simulation Monte-Carlo (physique médicale), Beihang University — Hangzhou, Chine</h4><p class="small">Simulation FLUKA d'un faisceau ¹²C (260 MeV/n) sur fantôme PMMA, dose (pic de Bragg) et activité β⁺ corrélée à la portée du faisceau (TEP), validation par comparaison à la littérature. Stage mené en anglais.</p></div></div>
-        <div class="item"><span class="when">S8</span><div><h4><span class="tbd">À venir</span></h4></div></div>
-      </div>
-    </section>
-  </article>
-
-  <!-- CONTACT -->
-  <article class="panel" id="p-contact" hidden>
-    <header class="contact-head">
-      <h2>Contact</h2>
-      <p>Une proposition de stage, un projet ou simplement une question ? N'hésitez pas à m'écrire.</p>
-    </header>
-    <div class="contact-cards">
-      <div class="ccard">
-        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
-        <strong>Email</strong>
-        <a class="val" href="mailto:bouchet.hugo@outlook.fr?subject=Prise%20de%20contact%20%E2%80%93%20e-portfolio">bouchet.hugo@outlook.fr</a>
-        <button class="copy" type="button" data-copy="bouchet.hugo@outlook.fr">Copier l'adresse</button>
-      </div>
-      <!-- TÉLÉPHONE : remplace 06 00 00 00 00 (2 fois) par ton numéro -->
-      <a class="ccard" href="tel:+33600000000">
-        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span>
-        <strong>Téléphone</strong>
-        <span class="val">06 00 00 00 00</span>
-      </a>
-      <a class="ccard" href="https://www.linkedin.com/in/hugo-bouchet-a09409242/" target="_blank" rel="noopener">
-        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></span>
-        <strong>LinkedIn</strong>
-        <span class="val">Voir mon profil</span>
-      </a>
+      <!-- PHOTO : mets ta photo dans le dépôt (ex. photo.jpg) et remplace la ligne suivante par : <div class="portrait"><img src="photo.jpg" alt="Hugo Bouchet"></div> -->
+      <div class="portrait">Photo</div>
     </div>
-  </article>
+  </section>
 
-  <div class="pager" id="pager" hidden></div>
+  <section class="block">
+    <div class="container">
+      <div class="stats">
+        <div class="stat"><strong>2</strong><span>stages de recherche en 2026</span></div>
+        <div class="stat"><strong>3 ans</strong><span>de bachelor en ingénierie, diplôme obtenu</span></div>
+        <div class="stat"><strong>4</strong><span>langues : français, anglais, italien, chinois</span></div>
+        <div class="stat"><strong>Chine</strong><span>2 mois de recherche à Hangzhou</span></div>
+      </div>
+    </div>
+  </section>
 
-  <footer>
-    <span>Contact : <a href="mailto:bouchet.hugo@outlook.fr?subject=Prise%20de%20contact%20%E2%80%93%20e-portfolio">bouchet.hugo@outlook.fr</a></span>
-    <span>Mis à jour en octobre 2026</span>
-  </footer>
+  <section class="block">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Domaines</span><h2>Ce qui m'intéresse</h2></div>
+      <div class="grid g3">
+        <div class="card">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h3l3-8 4 16 3-8h5"/></svg></span>
+          <h3>Instrumentation scientifique</h3>
+          <p>Concevoir et synchroniser des montages de mesure : laser, caméra rapide, acquisition de données.</p>
+        </div>
+        <div class="card">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg></span>
+          <h3>Électronique embarquée</h3>
+          <p>Programmer des microcontrôleurs en C++ pour du temps réel : Teensy 4.1, acquisition ADC par DMA.</p>
+        </div>
+        <div class="card">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15c2-6 4-6 6 0s4 6 6-2"/></svg></span>
+          <h3>Signal &amp; simulation</h3>
+          <p>Traiter et modéliser des données physiques : FFT, transformée de Hilbert en Python, Monte-Carlo avec FLUKA.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt">
+    <div class="container">
+      <div class="title"><span class="eyebrow">E-portfolio</span><h2>Explorer le portfolio</h2></div>
+      <div class="grid g3">
+        <a class="card" href="#formation"><h3>Formation &amp; projets</h3><p>Mon parcours académique, mes projets techniques et mes compétences.</p><span class="more">Voir →</span></a>
+        <a class="card" href="#carriere"><h3>Carrière</h3><p>Stages, projet professionnel, role models, CV et pitch.</p><span class="more">Voir →</span></a>
+        <a class="card" href="#international"><h3>International</h3><p>Langues et stage de recherche en Chine.</p><span class="more">Voir →</span></a>
+        <a class="card" href="#engagement"><h3>Engagement</h3><p>Transition écologique et vie étudiante.</p><span class="more">Voir →</span></a>
+        <a class="card" href="#activites"><h3>Activités</h3><p>Volley, football, dessin et jobs étudiants.</p><span class="more">Voir →</span></a>
+        <a class="card" href="#contact"><h3>Contact</h3><p>Email, téléphone et LinkedIn.</p><span class="more">Voir →</span></a>
+      </div>
+    </div>
+  </section>
 </div>
 
+<!-- =========================================================
+     FORMATION & PROJETS  (Engineering course)
+     ========================================================= -->
+<div class="page" id="p-formation" hidden>
+  <section class="pagehead"><div class="container">
+    <div class="crumb"><a href="#accueil">Accueil</a> / Formation &amp; projets</div>
+    <h1>Formation &amp; projets</h1>
+    <p>Mon parcours académique, les projets techniques que j'ai menés et les compétences que j'en retire.</p>
+  </div></section>
+
+  <section class="block">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Parcours académique</span><h2>Mes formations</h2><p>Cliquez sur une formation pour en voir le détail.</p></div>
+      <div class="timeline">
+        <details class="step now">
+          <summary><h3>Toulouse INP – ENSEEIHT · département 3EA<span class="tag">en cours</span></h3><span class="meta">2026 – 2029 · Diplôme d'ingénieur, 1re année · Toulouse</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="body">
+            <p>Cycle ingénieur au département 3EA : Électronique, Énergie Électrique et Automatique.</p>
+            <div><h4>Enseignements principaux</h4><ul><li>Systèmes numériques et électronique</li><li>Théorie des circuits</li><li>Signal et commande (automatique)</li><li>Systèmes électriques</li><li>Programmation</li></ul></div>
+            <div><h4>Objectif</h4><p>Me spécialiser en instrumentation scientifique et en électronique embarquée.</p></div>
+          </div>
+        </details>
+        <details class="step">
+          <summary><h3>Centrale Méditerranée · Bachelor</h3><span class="meta">2023 – 2026 · Ingénierie Responsable &amp; Transformations Digitales · Nice · diplôme obtenu</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="body">
+            <p>Bachelor d'ingénierie en trois ans, orienté ingénierie numérique, innovation et gestion de projet.</p>
+            <div><h4>Contenu</h4><ul><li>Socle pluridisciplinaire : mathématiques, physique, électronique, mécanique, informatique</li><li>Projets industriels en équipe</li><li>Immersion professionnelle chaque année</li></ul></div>
+            <div><h4>3e année en alternance</h4><p>Rythme 2 semaines école / 2 semaines laboratoire à l'INPHYNI (CNRS), sur un prototype d'imagerie hyperspectrale.</p></div>
+            <div><h4>Vie de l'école</h4><p>Élu étudiant transition écologique et développement durable.</p></div>
+          </div>
+        </details>
+        <details class="step">
+          <summary><h3>CPGE PCSI, option PSI · Lycée Jean Perrin</h3><span class="meta">2022 – 2023 · Classe préparatoire aux grandes écoles · Lyon</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="body">
+            <p>Année de classe préparatoire scientifique.</p>
+            <div><h4>Enseignements</h4><ul><li>Mathématiques intensives</li><li>Physique-chimie</li><li>Sciences de l'ingénieur (option PSI)</li></ul></div>
+          </div>
+        </details>
+        <details class="step">
+          <summary><h3>Baccalauréat général · Lycée Rosa Parks</h3><span class="meta">2019 – 2022 · Spécialités Mathématiques et Physique-Chimie · mention assez bien</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="body"><p>Lycée Rosa Parks, Neuville-sur-Saône.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Projets</span><h2>Projets techniques</h2></div>
+      <div class="grid g2">
+        <div class="card">
+          <span class="label">2026 · INPHYNI (CNRS), Nice</span>
+          <h3>Prototype d'imagerie hyperspectrale active</h3>
+          <p>Synchronisation temps réel d'un laser à 250 kHz, d'un miroir à 12,5 Hz et d'une caméra rapide à 12,5 kHz sans gigue, sur Teensy 4.1. Acquisition ADC à 250 kHz par DMA, puis traitement du signal pour mesurer l'épaisseur de films minces (films de savon). Redesign opto-mécanique du prototype et analyse de marché exploratoire.</p>
+          <div class="chips"><span class="chip">C++</span><span class="chip">Teensy 4.1</span><span class="chip">DMA</span><span class="chip">Python</span><span class="chip">FFT / Hilbert</span><span class="chip">Optique</span></div>
+        </div>
+        <div class="card">
+          <span class="label">2026 · Beihang University, Hangzhou (Chine)</span>
+          <h3>Simulation Monte-Carlo d'un faisceau d'ions carbone</h3>
+          <p>Simulation d'un faisceau ¹²C à 260 MeV/n sur un fantôme en PMMA, pour l'hadronthérapie. Calcul de la dose (pic de Bragg) et de l'activité β⁺ corrélée à la portée du faisceau, utile à la TEP en ligne. Validation par comparaison à la littérature. Projet mené en anglais.</p>
+          <div class="chips"><span class="chip">FLUKA</span><span class="chip">Flair</span><span class="chip">Linux</span><span class="chip">Physique médicale</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Compétences</span><h2>Ce que je sais faire</h2></div>
+      <div class="grid g4">
+        <div class="card"><h3>Programmation</h3><div class="chips"><span class="chip">Python</span><span class="chip">C++ embarqué</span><span class="chip">Java</span><span class="chip">SQL</span><span class="chip">Linux</span></div></div>
+        <div class="card"><h3>Instrumentation</h3><div class="chips"><span class="chip">Synchronisation temps réel</span><span class="chip">Acquisition DMA</span><span class="chip">Interférométrie</span></div></div>
+        <div class="card"><h3>Signal &amp; simulation</h3><div class="chips"><span class="chip">FFT</span><span class="chip">Hilbert</span><span class="chip">Monte-Carlo</span><span class="chip">FLUKA</span><span class="chip">Automatique</span></div></div>
+        <div class="card"><h3>Savoir-être</h3><div class="chips"><span class="chip">Autonomie</span><span class="chip">Rigueur</span><span class="chip">Esprit d'équipe</span><span class="chip">Adaptation</span><span class="chip">Gestion de projet</span></div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- =========================================================
+     CARRIÈRE  (Career development)
+     ========================================================= -->
+<div class="page" id="p-carriere" hidden>
+  <section class="pagehead"><div class="container">
+    <div class="crumb"><a href="#accueil">Accueil</a> / Carrière</div>
+    <h1>Carrière</h1>
+    <p>Mes expériences professionnelles, mon projet professionnel et mes documents.</p>
+    <div class="btns" style="margin-top:24px">
+      <a class="btn btn-primary" href="cv/CV-Hugo-Bouchet-FR.pdf" target="_blank" rel="noopener">CV en français</a>
+      <a class="btn btn-ghost" href="cv/CV-Hugo-Bouchet-EN.pdf" target="_blank" rel="noopener">CV in English</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/hugo-bouchet-a09409242/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div></section>
+
+  <section class="block">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Expériences</span><h2>Stages</h2><p>Cliquez sur un stage pour voir le détail.</p></div>
+      <div class="timeline">
+        <details class="step now">
+          <summary><h3>Stagiaire de recherche · Beihang University</h3><span class="meta">Juil. – août 2026 · Simulation Monte-Carlo (physique médicale) · Hangzhou, Chine</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="body"><ul><li>Simulation FLUKA d'un faisceau ¹²C (260 MeV/n) sur fantôme PMMA, sous Linux avec Flair</li><li>Dose (pic de Bragg) et activité β⁺ corrélée à la portée du faisceau (TEP)</li><li>Validation par comparaison à la littérature ; stage mené en anglais</li></ul></div>
+        </details>
+        <details class="step">
+          <summary><h3>Stagiaire ingénieur · INPHYNI (CNRS)</h3><span class="meta">Janv. – juin 2026 · Instrumentation scientifique, en alternance · Nice</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="body"><ul><li>Synchronisation temps réel sur Teensy 4.1 (C++) : laser 250 kHz, miroir, caméra rapide</li><li>Acquisition ADC 250 kHz par DMA ; traitement du signal en Python (FFT, Hilbert)</li><li>Redesign opto-mécanique d'un prototype d'imagerie hyperspectrale</li><li>Rythme alterné : 2 semaines école / 2 semaines laboratoire</li></ul></div>
+        </details>
+        <details class="step">
+          <summary><h3>Assistant ingénieur OPC · Global SA</h3><span class="meta">Juil. – août 2024 · Ordonnancement, pilotage et coordination de chantier · Lyon</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="body"><ul><li>Suivi et pilotage de chantier : organisation et respect des délais</li><li>Élaboration et suivi du planning d'avancement</li><li>Préparation et compte-rendu des réunions de coordination</li></ul></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Projet professionnel</span><h2>Où je veux aller</h2></div>
+      <div class="card">
+        <p style="color:var(--fg)">Je recherche un stage en <strong>instrumentation scientifique</strong> ou en <strong>électronique embarquée</strong>.</p>
+        <p class="todo">À compléter : le type d'entreprise ou de laboratoire visé, et le métier qui t'attire à la sortie de l'école.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Role models</span><h2>Des parcours qui m'inspirent</h2><p>Trois profils d'ingénieurs, et la piste de mobilité internationale que chacun m'inspire.</p></div>
+      <div class="grid g3">
+        <div class="card"><span class="label">Role model 1</span><h3>Poste, entreprise</h3><p class="todo">Parcours, compétences clés, ce que j'en retiens · piste de mobilité associée.</p></div>
+        <div class="card"><span class="label">Role model 2</span><h3>Poste, entreprise</h3><p class="todo">Parcours, compétences clés, ce que j'en retiens · piste de mobilité associée.</p></div>
+        <div class="card"><span class="label">Role model 3</span><h3>Poste, entreprise</h3><p class="todo">Parcours, compétences clés, ce que j'en retiens · piste de mobilité associée.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Pitch</span><h2>Elevator pitch</h2></div>
+      <div class="card"><p>Présentation vidéo de 2 à 3 minutes, en anglais.</p><p class="todo">Lien de la vidéo à ajouter.</p></div>
+    </div>
+  </section>
+</div>
+
+<!-- =========================================================
+     INTERNATIONAL  (International mobility)
+     ========================================================= -->
+<div class="page" id="p-international" hidden>
+  <section class="pagehead"><div class="container">
+    <div class="crumb"><a href="#accueil">Accueil</a> / International</div>
+    <h1>International</h1>
+    <p>Mes langues et mon expérience de recherche à l'étranger.</p>
+  </div></section>
+
+  <section class="block">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Langues</span><h2>Langues parlées</h2></div>
+      <div class="grid g4">
+        <div class="card lang"><h3>Français</h3><div class="bar"><i style="width:100%"></i></div><span class="label">Langue maternelle</span></div>
+        <div class="card lang"><h3>Anglais</h3><div class="bar"><i style="width:65%"></i></div><span class="label">B1 – B2 · stage de recherche mené en anglais</span></div>
+        <div class="card lang"><h3>Italien</h3><div class="bar"><i style="width:40%"></i></div><span class="label">A2 – B1</span></div>
+        <div class="card lang"><h3>Chinois</h3><div class="bar"><i style="width:12%"></i></div><span class="label">Débutant</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Expérience à l'étranger</span><h2>Deux mois de recherche en Chine</h2></div>
+      <div class="card">
+        <span class="label">Juillet – août 2026 · Beihang University, Hangzhou</span>
+        <h3>Stage de recherche en simulation Monte-Carlo</h3>
+        <p>Deux mois en laboratoire sur la simulation pour la physique médicale, avec un travail entièrement mené en anglais.</p>
+        <p class="todo">À compléter : la vie sur place, ce qui t'a surpris, comment tu t'es adapté, ce que ça change dans ta façon de travailler.</p>
+        <a class="more" href="#formation">Voir le projet technique →</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- =========================================================
+     ENGAGEMENT  (Sustainability & civic engagement)
+     ========================================================= -->
+<div class="page" id="p-engagement" hidden>
+  <section class="pagehead"><div class="container">
+    <div class="crumb"><a href="#accueil">Accueil</a> / Engagement</div>
+    <h1>Engagement</h1>
+    <p>Transition écologique, développement durable et vie étudiante.</p>
+  </div></section>
+
+  <section class="block">
+    <div class="container">
+      <div class="grid g2">
+        <div class="card">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10Z"/><path d="M2 21c0-3 1.9-5.4 5.1-6"/></svg></span>
+          <span class="label">2023 – 2026 · Centrale Méditerranée, Nice</span>
+          <h3>Élu étudiant transition écologique et développement durable</h3>
+          <p>Représentation des étudiants et participation aux actions de transition écologique de l'école.</p>
+          <p class="todo">À compléter : 2 ou 3 actions concrètes que tu as menées ou soutenues.</p>
+        </div>
+        <div class="card">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg></span>
+          <h3>Ingénieur 3EA et transition énergétique</h3>
+          <p class="todo">À compléter : en quelques lignes, comment l'électronique et l'énergie électrique peuvent servir la transition écologique, et comment tu comptes t'y impliquer.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- =========================================================
+     ACTIVITÉS  (Sport & other activities)
+     ========================================================= -->
+<div class="page" id="p-activites" hidden>
+  <section class="pagehead"><div class="container">
+    <div class="crumb"><a href="#accueil">Accueil</a> / Activités</div>
+    <h1>Activités</h1>
+    <p>Ce que je fais en dehors des cours : sport en club, passions et jobs étudiants.</p>
+  </div></section>
+
+  <section class="block">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Sport</span><h2>Sport en compétition</h2><p>Le sport collectif m'a appris l'esprit d'équipe, la régularité à l'entraînement et la capacité à m'adapter à un nouveau groupe.</p></div>
+      <div class="grid g2">
+        <div class="card">
+          <span class="label">Depuis 2023</span>
+          <h3>Volley-ball</h3>
+          <div class="list" style="border:0">
+            <div class="row" style="padding:10px 0"><h3 class="small">2026 – auj. · AS Toulouse INP</h3><p>Championnat universitaire FFSU, après une blessure.</p></div>
+            <div class="row" style="padding:10px 0"><h3 class="small">2023 – 2025 · AS Monaco</h3><p>Débuts en départemental, puis pré-national après quelques mois.</p></div>
+          </div>
+        </div>
+        <div class="card">
+          <span class="label">8 ans en club</span>
+          <h3>Football</h3>
+          <div class="list" style="border:0">
+            <div class="row" style="padding:10px 0"><h3 class="small">FC Bords de Saône</h3><p>U20.</p></div>
+            <div class="row" style="padding:10px 0"><h3 class="small">CS Neuville</h3><p>U16 à U18 en Régional, puis seniors en D4.</p></div>
+            <div class="row" style="padding:10px 0"><h3 class="small">FC Rive Droite · Monts d'Or Azergues Foot</h3><p>Formation en club, championnat départemental.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Passions</span><h2>Dessin</h2></div>
+      <div class="card"><p class="todo">À compléter : ce que tu dessines (croquis, portraits, BD…), depuis quand, et une ou deux images.</p></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Jobs étudiants</span><h2>Travailler en parallèle des études</h2><p>Des emplois saisonniers et étudiants qui m'ont appris l'organisation, la rigueur et le contact client.</p></div>
+      <div class="list">
+        <div class="row"><h3>Carrefour</h3><p>Employé commercial : mise en rayon, suivi des stocks, inventaire et réassort quotidien, relation client.</p></div>
+        <div class="row"><h3>Les Planches</h3><p>Serveur pendant 1,5 mois : service, manutention, organisation des soirées.</p></div>
+        <div class="row"><h3>3R Façades</h3><p>Ouvrier : travaux manuels, comptabilité, gestion de répertoire.</p></div>
+        <div class="row"><h3>Samada</h3><p>Préparateur de commandes pendant 1 mois : gestion des commandes et des stocks en réserve.</p></div>
+        <div class="row"><h3>Association Saint Augustin</h3><p>Personnel de service : ménage, plonge, organisation des activités, encadrement d'enfants.</p></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- =========================================================
+     CONTACT
+     ========================================================= -->
+<div class="page" id="p-contact" hidden>
+  <section class="pagehead"><div class="container">
+    <div class="crumb"><a href="#accueil">Accueil</a> / Contact</div>
+    <h1>Contact</h1>
+    <p>Une proposition de stage, un projet ou simplement une question ? N'hésitez pas à m'écrire.</p>
+  </div></section>
+
+  <section class="block">
+    <div class="container">
+      <div class="grid g3">
+        <div class="card ccard">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+          <h3>Email</h3>
+          <a class="val" href="mailto:bouchet.hugo@outlook.fr?subject=Prise%20de%20contact%20%E2%80%93%20e-portfolio">bouchet.hugo@outlook.fr</a>
+          <button class="copy" type="button" data-copy="bouchet.hugo@outlook.fr">Copier l'adresse</button>
+        </div>
+        <!-- TÉLÉPHONE : remplace 06 00 00 00 00 (2 fois) par ton numéro -->
+        <a class="card ccard" href="tel:+33782418225">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span>
+          <h3>Téléphone</h3>
+          <span class="val">06 00 00 00 00</span>
+        </a>
+        <a class="card ccard" href="https://www.linkedin.com/in/hugo-bouchet-a09409242/" target="_blank" rel="noopener">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></span>
+          <h3>LinkedIn</h3>
+          <span class="val">Voir mon profil</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Bandeau « Me contacter » affiché en bas de chaque page (sauf Contact) -->
+<section class="cta" id="cta">
+  <div class="container">
+    <div><h2>Je recherche un stage en instrumentation ou électronique embarquée</h2><p>Discutons de votre projet ou de votre laboratoire.</p></div>
+    <a class="btn btn-primary" href="#contact">Me contacter</a>
+  </div>
+</section>
+
+</main>
+
+<!-- =========================================================
+     PIED DE PAGE
+     ========================================================= -->
+<footer class="footer">
+  <div class="container">
+    <div class="cols">
+      <div>
+        <a class="brand" href="#accueil"><span class="mark">HB</span><span>Hugo Bouchet<small>Élève ingénieur · ENSEEIHT 3EA</small></span></a>
+        <p style="margin-top:12px;max-width:28em">E-portfolio réalisé dans le cadre de la formation d'ingénieur à Toulouse INP – ENSEEIHT.</p>
+      </div>
+      <div>
+        <h4>Portfolio</h4>
+        <ul><li><a href="#formation">Formation &amp; projets</a></li><li><a href="#carriere">Carrière</a></li><li><a href="#international">International</a></li><li><a href="#engagement">Engagement</a></li><li><a href="#activites">Activités</a></li></ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul><li><a href="mailto:bouchet.hugo@outlook.fr?subject=Prise%20de%20contact%20%E2%80%93%20e-portfolio">bouchet.hugo@outlook.fr</a></li><li><a href="https://www.linkedin.com/in/hugo-bouchet-a09409242/" target="_blank" rel="noopener">LinkedIn</a></li><li><a href="cv/CV-Hugo-Bouchet-FR.pdf" target="_blank" rel="noopener">CV (PDF)</a></li></ul>
+      </div>
+    </div>
+    <div class="bottom"><span>© 2026 Hugo Bouchet</span><span>Mis à jour en octobre 2026</span></div>
+  </div>
+</footer>
+
 <script>
-const ids=["welcome","engineering","mobility","sustainability","sport","career","contact"];
-const names={engineering:"Engineering course",mobility:"International mobility",sustainability:"Sustainability",sport:"Sport & activities",career:"Career development",contact:"Contact"};
-const sections=ids.slice(1);
-const $=id=>document.getElementById(id);
+const pages=["accueil","formation","carriere","international","engagement","activites","contact"];
+const titles={accueil:"E-portfolio ENSEEIHT",formation:"Formation & projets",carriere:"Carrière",international:"International",engagement:"Engagement",activites:"Activités",contact:"Contact"};
+const menu=document.getElementById("menu"), burger=document.getElementById("burger");
 
 function show(id){
-  if(!ids.includes(id)) id="welcome";
-  const home=id==="welcome";
-  ids.forEach(t=>{$("p-"+t).hidden=(t!==id)});
-  // accueil : grand en-tête + cartes ; section : barre retour/changer + précédent/suivant
-  $("top").hidden=!home; $("gap").hidden=!home;
-  $("bar").hidden=home; $("pager").hidden=home;
-  document.querySelectorAll(".switch a").forEach(a=>{
+  if(!pages.includes(id)) id="accueil";
+  pages.forEach(p=>{document.getElementById("p-"+p).hidden=(p!==id)});
+  document.querySelectorAll("#menu a").forEach(a=>{
     if(a.getAttribute("href")==="#"+id) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current");
   });
-  if(!home){
-    const i=sections.indexOf(id), prev=sections[i-1], next=sections[i+1];
-    $("pager").innerHTML=
-      (prev?`<a class="prev" href="#${prev}"><span>← Précédent</span>${names[prev]}</a>`:`<a class="prev" href="#welcome"><span>← Retour</span>Accueil</a>`)+
-      (next?`<a class="next" href="#${next}"><span>Suivant →</span>${names[next]}</a>`:`<a class="next" href="#welcome"><span>Retour →</span>Accueil</a>`);
-  }
-  document.title=home?"E-portfolio N7 · Hugo Bouchet":names[id]+" · Hugo Bouchet";
+  document.getElementById("cta").hidden=(id==="contact");
+  document.title="Hugo Bouchet · "+titles[id];
+  menu.classList.remove("open"); burger.setAttribute("aria-expanded","false");
 }
 
 document.addEventListener("click",e=>{
   const a=e.target.closest('a[href^="#"]'); if(!a) return;
-  e.preventDefault(); const id=a.getAttribute("href").slice(1);
+  const id=a.getAttribute("href").slice(1); if(!pages.includes(id)) return;
+  e.preventDefault();
   if(location.hash!=="#"+id){try{history.pushState(null,"","#"+id)}catch(_){}}
   show(id); window.scrollTo(0,0);
 });
-// bouton « retour » du navigateur : revient à la page précédente du portfolio
 window.addEventListener("popstate",()=>{show(location.hash.slice(1)); window.scrollTo(0,0)});
+
+burger.addEventListener("click",()=>{
+  const open=menu.classList.toggle("open"); burger.setAttribute("aria-expanded",open);
+});
+
 document.addEventListener("click",e=>{
   const b=e.target.closest(".copy"); if(!b) return;
-  const done=()=>{const t=b.textContent; b.textContent="Adresse copiée ✓"; setTimeout(()=>b.textContent=t,1800)};
-  try{navigator.clipboard.writeText(b.dataset.copy).then(done,()=>{})}catch(_){}
+  const t=b.textContent;
+  try{navigator.clipboard.writeText(b.dataset.copy).then(()=>{b.textContent="Adresse copiée ✓";setTimeout(()=>b.textContent=t,1800)},()=>{})}catch(_){}
 });
+
 show(location.hash.slice(1));
 </script>
 </body>
