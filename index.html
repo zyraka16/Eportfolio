@@ -94,6 +94,7 @@ ul{margin:0;padding-left:18px}
 .block.alt{background:var(--bg-alt)}
 .block:not(.alt) + .block:not(.alt){padding-top:0}
 .title{margin-bottom:32px;display:grid;gap:8px}
+.card + .title{margin-top:48px}
 .title h2{font-size:clamp(24px,3.4vw,30px)}
 .title p{color:var(--muted);max-width:42em}
 .center{text-align:center;justify-items:center}
@@ -145,9 +146,6 @@ a.card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 
 .step .body p{color:var(--fg)}
 
 /* langues */
-.lang{display:grid;gap:8px}
-.bar{height:6px;border-radius:99px;background:var(--line);overflow:hidden}
-.bar i{display:block;height:100%;background:var(--accent);border-radius:99px}
 
 /* listes simples */
 .list{display:grid;gap:0;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg)}
@@ -228,8 +226,7 @@ a.card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"/></svg>Télécharger mon CV</a>
         </div>
       </div>
-      <!-- PHOTO : mets ta photo dans le dépôt (ex. photo.jpg) et remplace la ligne suivante par : <div class="portrait"><img src="photo.jpg" alt="Hugo Bouchet"></div> -->
-      <div class="portrait">Photo</div>
+      <div class="portrait"><img src="Photo.jpg" alt="Hugo Bouchet"></div>
     </div>
   </section>
 
@@ -239,7 +236,7 @@ a.card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 
         <div class="stat"><strong>2</strong><span>stages de recherche en 2026</span></div>
         <div class="stat"><strong>3 ans</strong><span>de bachelor en ingénierie, diplôme obtenu</span></div>
         <div class="stat"><strong>4</strong><span>langues : français, anglais, italien, chinois</span></div>
-        <div class="stat"><strong>Chine</strong><span>2 mois de recherche à Hangzhou</span></div>
+        <div class="stat"><strong>Chine</strong><span>1 mois de recherche à Hangzhou</span></div>
       </div>
     </div>
   </section>
@@ -261,7 +258,7 @@ a.card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 
         <div class="card">
           <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15c2-6 4-6 6 0s4 6 6-2"/></svg></span>
           <h3>Signal &amp; simulation</h3>
-          <p>Traiter et modéliser des données physiques : FFT, transformée de Hilbert en Python, Monte-Carlo avec FLUKA.</p>
+          <p>Traiter et analyser des données physiques : FFT et transformée de Hilbert en Python.</p>
         </div>
       </div>
     </div>
@@ -338,12 +335,6 @@ a.card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 
           <p>Synchronisation temps réel d'un laser à 250 kHz, d'un miroir à 12,5 Hz et d'une caméra rapide à 12,5 kHz sans gigue, sur Teensy 4.1. Acquisition ADC à 250 kHz par DMA, puis traitement du signal pour mesurer l'épaisseur de films minces (films de savon). Redesign opto-mécanique du prototype et analyse de marché exploratoire.</p>
           <div class="chips"><span class="chip">C++</span><span class="chip">Teensy 4.1</span><span class="chip">DMA</span><span class="chip">Python</span><span class="chip">FFT / Hilbert</span><span class="chip">Optique</span></div>
         </div>
-        <div class="card">
-          <span class="label">2026 · Beihang University, Hangzhou (Chine)</span>
-          <h3>Simulation Monte-Carlo d'un faisceau d'ions carbone</h3>
-          <p>Simulation d'un faisceau ¹²C à 260 MeV/n sur un fantôme en PMMA, pour l'hadronthérapie. Calcul de la dose (pic de Bragg) et de l'activité β⁺ corrélée à la portée du faisceau, utile à la TEP en ligne. Validation par comparaison à la littérature. Projet mené en anglais.</p>
-          <div class="chips"><span class="chip">FLUKA</span><span class="chip">Flair</span><span class="chip">Linux</span><span class="chip">Physique médicale</span></div>
-        </div>
       </div>
     </div>
   </section>
@@ -354,7 +345,7 @@ a.card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 
       <div class="grid g4">
         <div class="card"><h3>Programmation</h3><div class="chips"><span class="chip">Python</span><span class="chip">C++ embarqué</span><span class="chip">Java</span><span class="chip">SQL</span><span class="chip">Linux</span></div></div>
         <div class="card"><h3>Instrumentation</h3><div class="chips"><span class="chip">Synchronisation temps réel</span><span class="chip">Acquisition DMA</span><span class="chip">Interférométrie</span></div></div>
-        <div class="card"><h3>Signal &amp; simulation</h3><div class="chips"><span class="chip">FFT</span><span class="chip">Hilbert</span><span class="chip">Monte-Carlo</span><span class="chip">FLUKA</span><span class="chip">Automatique</span></div></div>
+        <div class="card"><h3>Signal &amp; simulation</h3><div class="chips"><span class="chip">FFT</span><span class="chip">Hilbert</span><span class="chip">Automatique</span></div></div>
         <div class="card"><h3>Savoir-être</h3><div class="chips"><span class="chip">Autonomie</span><span class="chip">Rigueur</span><span class="chip">Esprit d'équipe</span><span class="chip">Adaptation</span><span class="chip">Gestion de projet</span></div></div>
       </div>
     </div>
@@ -380,10 +371,19 @@ a.card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 
     <div class="container">
       <div class="title"><span class="eyebrow">Expériences</span><h2>Stages</h2><p>Cliquez sur un stage pour voir le détail.</p></div>
       <div class="timeline">
+
         <details class="step now">
-          <summary><h3>Stagiaire de recherche · Beihang University</h3><span class="meta">Juil. – août 2026 · Simulation Monte-Carlo (physique médicale) · Hangzhou, Chine</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
-          <div class="body"><ul><li>Simulation FLUKA d'un faisceau ¹²C (260 MeV/n) sur fantôme PMMA, sous Linux avec Flair</li><li>Dose (pic de Bragg) et activité β⁺ corrélée à la portée du faisceau (TEP)</li><li>Validation par comparaison à la littérature ; stage mené en anglais</li></ul></div>
+          <summary><h3>Stagiaire de recherche · Beihang University</h3><span class="meta">17 juil. – 12 août 2026 · Simulation pour la physique médicale · Hangzhou, Chine</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="body">
+            <ul>
+              <li>Prise en main du logiciel de simulation FLUKA sous Linux</li>
+              <li>Simulation d'un faisceau d'ions carbone et comparaison avec une étude de référence</li>
+              <li>Stage mené en anglais, avec un encadrement à distance</li>
+            </ul>
+            <a class="more" href="#international">Voir mon expérience en Chine →</a>
+          </div>
         </details>
+
         <details class="step">
           <summary><h3>Stagiaire ingénieur · INPHYNI (CNRS)</h3><span class="meta">Janv. – juin 2026 · Instrumentation scientifique, en alternance · Nice</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
           <div class="body"><ul><li>Synchronisation temps réel sur Teensy 4.1 (C++) : laser 250 kHz, miroir, caméra rapide</li><li>Acquisition ADC 250 kHz par DMA ; traitement du signal en Python (FFT, Hilbert)</li><li>Redesign opto-mécanique d'un prototype d'imagerie hyperspectrale</li><li>Rythme alterné : 2 semaines école / 2 semaines laboratoire</li></ul></div>
@@ -432,33 +432,51 @@ a.card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 
   <section class="pagehead"><div class="container">
     <div class="crumb"><a href="#accueil">Accueil</a> / International</div>
     <h1>International</h1>
-    <p>Mes langues et mon expérience de recherche à l'étranger.</p>
+    <p>Mon expérience à l'étranger et les langues que je parle.</p>
   </div></section>
 
-  <section class="block">
+    <section class="block">
+    <div class="container">
+      <div class="title"><span class="eyebrow">Expérience à l'étranger</span><h2>Un mois de recherche en Chine</h2></div>
+      <div class="card">
+        <span class="label">17 juillet – 12 août 2026 · Beihang University, Hangzhou</span>
+        <h3>Stage de recherche au BCC Lab · École Centrale de Pékin</h3>
+        <p>Stage de recherche en simulation pour la physique médicale, au sein d'un laboratoire franco-chinois installé sur le campus international de Beihang à Hangzhou. Ma première expérience de vie et de travail à l'étranger.</p>
+
+        <div>
+          <h4 class="small" style="margin-bottom:4px">Ce que j'ai découvert</h4>
+          <ul class="muted small">
+            <li>Une culture et un mode de vie très différents, au quotidien sur un campus situé en périphérie de Hangzhou.</li>
+            <li>La ville de Hangzhou, et deux week-ends à Shanghai pour découvrir l'une des plus grandes métropoles du pays.</li>
+            <li>Une intégration facilitée par mon colocataire, qui m'a beaucoup aidé à prendre mes repères.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="small" style="margin-bottom:4px">Comment je me suis adapté</h4>
+          <ul class="muted small">
+            <li>Travail en anglais avec une encadrante chinoise, parfois à l'aide d'outils de traduction : j'ai appris à formuler mes questions le plus simplement et précisément possible.</li>
+            <li>Encadrement à distance pendant l'été : j'ai dû avancer en autonomie, chercher seul dans la documentation et rendre compte régulièrement de mon travail.</li>
+          </ul>
+        </div>
+
+        <p>Au-delà du sujet scientifique, ce stage m'a surtout appris à m'adapter à un environnement inconnu et à travailler de façon autonome au sein d'une équipe internationale. Il m'a aussi donné envie d'apprendre le chinois, que j'ai commencé à l'ENSEEIHT.</p>
+      </div>
+    </div>
+  </section>
+
+    <section class="block alt">
     <div class="container">
       <div class="title"><span class="eyebrow">Langues</span><h2>Langues parlées</h2></div>
       <div class="grid g4">
-        <div class="card lang"><h3>Français</h3><div class="bar"><i style="width:100%"></i></div><span class="label">Langue maternelle</span></div>
-        <div class="card lang"><h3>Anglais</h3><div class="bar"><i style="width:65%"></i></div><span class="label">B1 – B2 · stage de recherche mené en anglais</span></div>
-        <div class="card lang"><h3>Italien</h3><div class="bar"><i style="width:40%"></i></div><span class="label">A2 – B1</span></div>
-        <div class="card lang"><h3>Chinois</h3><div class="bar"><i style="width:12%"></i></div><span class="label">Débutant</span></div>
+        <div class="card"><h3>Français</h3><p>Langue maternelle</p></div>
+        <div class="card"><h3>Anglais</h3><p>Niveau B2 · TOEIC 810</p></div>
+        <div class="card"><h3>Italien</h3><p>Niveau scolaire</p><span class="label">6 ans d'apprentissage, de la 5e à la terminale</span></div>
+        <div class="card"><h3>Chinois</h3><p>Débutant</p><span class="label">En cours d'apprentissage à l'ENSEEIHT depuis 2026</span></div>
       </div>
     </div>
   </section>
 
-  <section class="block alt">
-    <div class="container">
-      <div class="title"><span class="eyebrow">Expérience à l'étranger</span><h2>Deux mois de recherche en Chine</h2></div>
-      <div class="card">
-        <span class="label">Juillet – août 2026 · Beihang University, Hangzhou</span>
-        <h3>Stage de recherche en simulation Monte-Carlo</h3>
-        <p>Deux mois en laboratoire sur la simulation pour la physique médicale, avec un travail entièrement mené en anglais.</p>
-        <p class="todo">À compléter : la vie sur place, ce qui t'a surpris, comment tu t'es adapté, ce que ça change dans ta façon de travailler.</p>
-        <a class="more" href="#formation">Voir le projet technique →</a>
-      </div>
-    </div>
-  </section>
 </div>
 
 <!-- =========================================================
@@ -471,38 +489,44 @@ a.card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 
     <p>Vie associative, représentation des étudiants et transition écologique.</p>
   </div></section>
 
-  <section class="block">
+    <section class="block">
     <div class="container">
-      <div class="title"><span class="eyebrow">Vie associative</span><h2>Créer le BDE du Bachelor</h2></div>
+      <div class="title"><span class="eyebrow">Vie associative</span><h2>Création du BDE du Bachelor de Centrale Méditerranée</h2></div>
       <div class="card">
         <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14.5c2.3.3 3.9 2 4.5 4.5"/></svg></span>
-        <span class="label">Centrale Méditerranée · campus de Nice</span>
+        <span class="label">2023 – 2026 · Centrale Méditerranée · campus de Nice</span>
         <h3>Vice-président et co-fondateur du BDE du Bachelor</h3>
-        <p>Avec l'équipe fondatrice, nous avons créé et monté de zéro le Bureau des élèves du Bachelor sur le campus de Nice. En tant que vice-président, j'ai participé à sa mise en place et à son organisation.</p>
-        <p class="todo">À compléter : les années, la taille de l'équipe, ce qu'il a fallu mettre en place (statuts, budget, partenaires…) et 2 ou 3 événements ou actions organisés.</p>
+        <p>Dès ma première année, j'ai aidé à créer le Bureau des élèves du Bachelor, qui n'existait pas encore sur le campus de Nice, avec deux camarades : le président (Mathis Michelis), la trésorière (Maëlle Sirvent) et moi en tant que vice-président.</p>
+
+        <div>
+          <h4 class="small" style="margin-bottom:4px">De la création à la transmission</h4>
+          <ul class="muted small">
+            <li><strong>1re année :</strong> mise en place administrative de l'association, avec une équipe de trois personnes.</li>
+            <li><strong>2e année :</strong> premières sorties et soirées organisées.</li>
+            <li><strong>3e année :</strong> avec trois promotions réunies, un programme plus riche : soirées, événements et une journée au ski, jusqu'à une vingtaine de participants par événement.</li>
+            <li>Passation à une nouvelle équipe, qui a repris le BDE.</li>
+          </ul>
+        </div>
+
+        <p>Sur un campus d'une cinquantaine d'étudiants, le principal défi a été de mobiliser et de faire vivre l'association. Cette expérience m'a appris à mener un projet sur la durée, de sa création jusqu'à sa transmission, et à persévérer quand l'engagement autour de soi est limité.</p>
+
         <div class="chips"><span class="chip">Création d'association</span><span class="chip">Gestion de projet</span><span class="chip">Travail en équipe</span><span class="chip">Organisation d'événements</span></div>
       </div>
     </div>
   </section>
 
-  <section class="block alt">
+    <section class="block alt">
     <div class="container">
       <div class="title"><span class="eyebrow">Développement durable</span><h2>Transition écologique</h2></div>
-      <div class="grid g2">
-        <div class="card">
-          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10Z"/><path d="M2 21c0-3 1.9-5.4 5.1-6"/></svg></span>
-          <span class="label">2023 – 2026 · Centrale Méditerranée, Nice</span>
-          <h3>Élu étudiant transition écologique et développement durable</h3>
-          <p>Représentant des étudiants aux réunions de l'école consacrées au développement durable, pour porter la voix des élèves sur ces sujets.</p>
-        </div>
-        <div class="card">
-          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg></span>
-          <h3>Ingénieur 3EA et transition énergétique</h3>
-          <p class="todo">À compléter : en quelques lignes, comment l'électronique et l'énergie électrique peuvent servir la transition écologique, et comment tu comptes t'y impliquer.</p>
-        </div>
+      <div class="card">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10Z"/><path d="M2 21c0-3 1.9-5.4 5.1-6"/></svg></span>
+        <span class="label">2023 – 2026 · Centrale Méditerranée, Nice</span>
+        <h3>Élu étudiant transition écologique et développement durable</h3>
+        <p>Représentant des étudiants aux réunions de l'école consacrées au développement durable, pour porter la voix des élèves sur ces sujets.</p>
       </div>
     </div>
   </section>
+
 </div>
 
 <!-- =========================================================
@@ -512,7 +536,7 @@ a.card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 
   <section class="pagehead"><div class="container">
     <div class="crumb"><a href="#accueil">Accueil</a> / Activités</div>
     <h1>Activités</h1>
-    <p>Ce que je fais en dehors des cours : sport en club, passions et jobs étudiants.</p>
+    <p>Ce qui m’anime au quotidien : le sport en club, mes passions et les jobs étudiants qui m’ont fait grandir.</p>
   </div></section>
 
   <section class="block">
@@ -523,17 +547,20 @@ a.card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 
           <span class="label">Depuis 2023</span>
           <h3>Volley-ball</h3>
           <div class="list" style="border:0">
-            <div class="row" style="padding:10px 0"><h3 class="small">2026 – auj. · AS Toulouse INP</h3><p>Championnat universitaire FFSU, après une blessure.</p></div>
-            <div class="row" style="padding:10px 0"><h3 class="small">2023 – 2025 · AS Monaco</h3><p>Débuts en départemental, puis pré-national après quelques mois.</p></div>
+            <div class="row" style="padding:10px 0"><div><span class="label">2026 – auj.</span><h3 class="small">AS Toulouse INP</h3></div>
+            <p>Championnat universitaire FFSU, après une blessure.</p></div> 
+            <div class="row" style="padding:10px 0"><div><span class="label">2023 – 2025</span><h3 class="small">AS Monaco</h3></div>
+            <p>Débuts en départemental, puis pré-national après quelques mois.</p></div>
           </div>
         </div>
         <div class="card">
           <span class="label">8 ans en club</span>
           <h3>Football</h3>
           <div class="list" style="border:0">
-            <div class="row" style="padding:10px 0"><h3 class="small">FC Bords de Saône</h3><p>U20.</p></div>
-            <div class="row" style="padding:10px 0"><h3 class="small">CS Neuville</h3><p>U16 à U18 en Régional, puis seniors en D4.</p></div>
-            <div class="row" style="padding:10px 0"><h3 class="small">FC Rive Droite · Monts d'Or Azergues Foot</h3><p>Formation en club, championnat départemental.</p></div>
+            <div class="row" style="padding:10px 0"><h3 class="small">FC Bords de Saône (FCBS)</h3><p>U20.</p></div>
+            <div class="row" style="padding:10px 0"><h3 class="small">CS Neuville (CSN)</h3><p>U16 à U18 en Régional.</p></div>
+            <div class="row" style="padding:10px 0"><h3 class="small">FC Rive Droite (FCRD)</h3><p> </p></div>
+            <div class="row" style="padding:10px 0"><h3 class="small">Monts d'Or Azergues Foot (MDA)</h3><p> </p></div>
           </div>
         </div>
       </div>
@@ -541,11 +568,20 @@ a.card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 
   </section>
 
   <section class="block alt">
-    <div class="container">
-      <div class="title"><span class="eyebrow">Passions</span><h2>Dessin</h2></div>
-      <div class="card"><p class="todo">À compléter : ce que tu dessines (croquis, portraits, BD…), depuis quand, et une ou deux images.</p></div>
-    </div>
-  </section>
+  <div class="container">
+
+    <div class="title"><span class="eyebrow">Passions</span>
+      <h2>Dessin</h2></div>
+    <div class="card"><p class="todo">À compléter : ce que tu dessines (croquis, portraits, BD…), depuis quand, et une ou deux images.</p></div>
+
+    <div class="title"><h2>Jeux</h2></div>
+    <div class="card"><p>J'aime jouer aux jeux vidéo en ligne, notamment les jeux multijoueurs comme Valorant ou League of Legends, mais je suis également grand fan de jeux de société et de réflexion (énigmes, escape games…).</p></div>
+
+    <div class="title"><h2>Photos et vidéos</h2></div>
+    <div class="card"><p>Je commence à prendre des photos et des vidéos avec un drone.</p></div>
+
+  </div>
+</section>
 
   <section class="block">
     <div class="container">
@@ -580,8 +616,7 @@ a.card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 
           <a class="val" href="mailto:bouchet.hugo@outlook.fr?subject=Prise%20de%20contact%20%E2%80%93%20e-portfolio">bouchet.hugo@outlook.fr</a>
           <button class="copy" type="button" data-copy="bouchet.hugo@outlook.fr">Copier l'adresse</button>
         </div>
-        <!-- TÉLÉPHONE : remplace 06 00 00 00 00 (2 fois) par ton numéro -->
-        <a class="card ccard" href="tel:+3378418225">
+        <a class="card ccard" href="tel:+33782418225">
           <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span>
           <h3>Téléphone</h3>
           <span class="val">07 82 41 82 25</span>
