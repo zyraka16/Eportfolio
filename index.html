@@ -36,13 +36,31 @@ a{color:var(--accent);text-underline-offset:3px}
 .id p{color:var(--muted)}
 .links{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:15px;margin-top:4px}
 
-/* Onglets */
-nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);margin-top:36px;
-  border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:4px 24px;z-index:2}
-nav a{padding:12px 0;color:var(--muted);text-decoration:none;font-size:15px;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px}
-nav a:hover{color:var(--fg)}
-nav a[aria-current="page"]{color:var(--fg);border-bottom-color:var(--accent);font-weight:500}
-nav a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* Accueil : cartes cliquables vers chaque section */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
+.tile{display:grid;gap:4px;padding:18px;border:1px solid var(--line);border-radius:6px;color:var(--fg);text-decoration:none;transition:border-color .15s,background .15s}
+.tile:hover{border-color:var(--accent);background:var(--soft)}
+.tile strong{font-weight:600}
+.tile span{font-size:14px;color:var(--muted)}
+.tile strong::after{content:" →";color:var(--accent)}
+.tile:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* Page de section : barre en haut (retour + changer de section) */
+.bar{position:sticky;top:0;z-index:2;background:var(--bg);border-bottom:1px solid var(--line);
+  display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;padding:12px 0}
+.bar .back{font-weight:500;text-decoration:none;white-space:nowrap}
+.bar .who{font-size:14px;color:var(--muted);margin-right:auto}
+.switch{display:flex;flex-wrap:wrap;gap:6px}
+.switch a{font-size:13px;padding:4px 10px;border:1px solid var(--line);border-radius:999px;color:var(--muted);text-decoration:none;white-space:nowrap}
+.switch a:hover{color:var(--fg);border-color:var(--muted)}
+.switch a[aria-current="page"]{color:var(--bg);background:var(--accent);border-color:var(--accent)}
+
+/* Bas de page de section : précédent / suivant */
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:48px}
+.pager a{display:grid;gap:2px;padding:14px 16px;border:1px solid var(--line);border-radius:6px;text-decoration:none;color:var(--fg)}
+.pager a:hover{border-color:var(--accent)}
+.pager a span{font-size:13px;color:var(--muted)}
+.pager .next{text-align:right;grid-column:2}
 
 .panel{padding-top:36px;display:grid;gap:40px}
 .panel > header{display:grid;gap:6px}
@@ -71,12 +89,25 @@ li{margin:2px 0}
 
 footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-size:14px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
 
+.contact-head{text-align:center;display:grid;gap:8px;padding-top:12px}
+.contact-head h2{font-size:30px}
+.contact-head p{color:var(--muted)}
+.contact-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px}
+.ccard{display:grid;justify-items:center;gap:10px;text-align:center;padding:28px 18px;border:1px solid var(--line);border-radius:10px;color:var(--fg);text-decoration:none;transition:border-color .15s,transform .15s}
+a.ccard:hover{border-color:var(--accent);transform:translateY(-2px)}
+.ccard .ic{width:56px;height:56px;border-radius:50%;background:var(--soft);display:grid;place-items:center;color:var(--accent)}
+.ccard .ic svg{width:24px;height:24px}
+.ccard strong{font-size:17px;font-weight:600}
+.ccard .val{font-size:14px;color:var(--accent);overflow-wrap:anywhere}
+.copy{font:inherit;font-size:13px;color:var(--muted);background:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;cursor:pointer}
+.copy:hover{color:var(--fg);border-color:var(--muted)}
+
 @media (max-width:560px){.item{grid-template-columns:1fr;gap:2px}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header class="top">
+  <header class="top" id="top">
     <div class="photo">Photo</div>
     <div class="id">
       <h1>Hugo Bouchet</h1>
@@ -84,21 +115,27 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-si
       <div class="links">
         <a href="#career">CV (FR / EN)</a>
         <a href="https://www.linkedin.com/in/hugo-bouchet-a09409242/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="#contact">Contact</a>
         <a href="#career">Pitch vidéo</a>
       </div>
     </div>
   </header>
 
-  <nav aria-label="Sections du portfolio">
-    <a href="#welcome">Welcome</a>
-    <a href="#engineering">Engineering course</a>
-    <a href="#mobility">International mobility</a>
-    <a href="#sustainability">Sustainability</a>
-    <a href="#sport">Sport &amp; activities</a>
-    <a href="#career">Career development</a>
-  </nav>
+  <div class="bar" id="bar" hidden>
+    <a class="back" href="#welcome">← Accueil</a>
+    <span class="who">Hugo Bouchet · e-portfolio</span>
+    <div class="switch" aria-label="Changer de section">
+      <a href="#engineering">Engineering</a>
+      <a href="#mobility">Mobility</a>
+      <a href="#sustainability">Sustainability</a>
+      <a href="#sport">Sport</a>
+      <a href="#career">Career</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
 
   <!-- WELCOME -->
+  <div style="height:36px" id="gap"></div>
   <article class="panel" id="p-welcome">
     <header>
       <h2>Bienvenue</h2>
@@ -114,6 +151,17 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-si
         <div><span class="eyebrow">Projet en cours</span><p><span class="tbd">Premier semestre à l'ENSEEIHT — à compléter avec les projets du département 3EA</span></p></div>
         <div><span class="eyebrow">Recherche</span><p>Stage en instrumentation scientifique / électronique embarquée</p></div>
         <div><span class="eyebrow">Centres d'intérêt</span><p>Volley-ball, football, dessin, transition écologique</p></div>
+      </div>
+    </section>
+    <section>
+      <h3>Explorer le portfolio</h3>
+      <div class="tiles">
+        <a class="tile" href="#engineering"><strong>Engineering course</strong><span>Formation, projets et compétences</span></a>
+        <a class="tile" href="#mobility"><strong>International mobility</strong><span>Langues et stage en Chine</span></a>
+        <a class="tile" href="#sustainability"><strong>Sustainability</strong><span>Engagement écologique et citoyen</span></a>
+        <a class="tile" href="#sport"><strong>Sport &amp; activities</strong><span>Volley, football, dessin</span></a>
+        <a class="tile" href="#career"><strong>Career development</strong><span>CV, stages, role models, pitch</span></a>
+        <a class="tile" href="#contact"><strong>Contact</strong><span>Email, téléphone, LinkedIn</span></a>
       </div>
     </section>
   </article>
@@ -256,33 +304,79 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-si
     </section>
   </article>
 
+  <!-- CONTACT -->
+  <article class="panel" id="p-contact" hidden>
+    <header class="contact-head">
+      <h2>Contact</h2>
+      <p>Une proposition de stage, un projet ou simplement une question ? N'hésitez pas à m'écrire.</p>
+    </header>
+    <div class="contact-cards">
+      <div class="ccard">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+        <strong>Email</strong>
+        <a class="val" href="mailto:bouchet.hugo@outlook.fr?subject=Prise%20de%20contact%20%E2%80%93%20e-portfolio">bouchet.hugo@outlook.fr</a>
+        <button class="copy" type="button" data-copy="bouchet.hugo@outlook.fr">Copier l'adresse</button>
+      </div>
+      <!-- TÉLÉPHONE : remplace 06 00 00 00 00 (2 fois) par ton numéro -->
+      <a class="ccard" href="tel:+33782418225">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span>
+        <strong>Téléphone</strong>
+        <span class="val">06 00 00 00 00</span>
+      </a>
+      <a class="ccard" href="https://www.linkedin.com/in/hugo-bouchet-a09409242/" target="_blank" rel="noopener">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></span>
+        <strong>LinkedIn</strong>
+        <span class="val">Voir mon profil</span>
+      </a>
+    </div>
+  </article>
+
+  <div class="pager" id="pager" hidden></div>
+
   <footer>
-    <span>Contact : bouchet.hugo@outlook.fr</span>
+    <span>Contact : <a href="mailto:bouchet.hugo@outlook.fr?subject=Prise%20de%20contact%20%E2%80%93%20e-portfolio">bouchet.hugo@outlook.fr</a></span>
     <span>Mis à jour en octobre 2026</span>
   </footer>
 </div>
 
 <script>
-const ids=["welcome","engineering","mobility","sustainability","sport","career"];
+const ids=["welcome","engineering","mobility","sustainability","sport","career","contact"];
+const names={engineering:"Engineering course",mobility:"International mobility",sustainability:"Sustainability",sport:"Sport & activities",career:"Career development",contact:"Contact"};
+const sections=ids.slice(1);
+const $=id=>document.getElementById(id);
+
 function show(id){
   if(!ids.includes(id)) id="welcome";
-  ids.forEach(t=>{document.getElementById("p-"+t).hidden=(t!==id)});
-  document.querySelectorAll("nav a").forEach(a=>{
+  const home=id==="welcome";
+  ids.forEach(t=>{$("p-"+t).hidden=(t!==id)});
+  // accueil : grand en-tête + cartes ; section : barre retour/changer + précédent/suivant
+  $("top").hidden=!home; $("gap").hidden=!home;
+  $("bar").hidden=home; $("pager").hidden=home;
+  document.querySelectorAll(".switch a").forEach(a=>{
     if(a.getAttribute("href")==="#"+id) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current");
   });
+  if(!home){
+    const i=sections.indexOf(id), prev=sections[i-1], next=sections[i+1];
+    $("pager").innerHTML=
+      (prev?`<a class="prev" href="#${prev}"><span>← Précédent</span>${names[prev]}</a>`:`<a class="prev" href="#welcome"><span>← Retour</span>Accueil</a>`)+
+      (next?`<a class="next" href="#${next}"><span>Suivant →</span>${names[next]}</a>`:`<a class="next" href="#welcome"><span>Retour →</span>Accueil</a>`);
+  }
+  document.title=home?"E-portfolio N7 · Hugo Bouchet":names[id]+" · Hugo Bouchet";
 }
-const nav=document.querySelector("nav");
+
 document.addEventListener("click",e=>{
   const a=e.target.closest('a[href^="#"]'); if(!a) return;
   e.preventDefault(); const id=a.getAttribute("href").slice(1);
   if(location.hash!=="#"+id){try{history.pushState(null,"","#"+id)}catch(_){}}
-  show(id);
-  // remonter en haut de l'onglet si on était descendu plus bas
-  const top=document.getElementById("p-"+(ids.includes(id)?id:"welcome")).offsetTop-nav.offsetHeight;
-  if(window.scrollY>top) window.scrollTo({top,behavior:"smooth"});
+  show(id); window.scrollTo(0,0);
 });
-// bouton « retour » du navigateur : revient à l'onglet précédent
-window.addEventListener("popstate",()=>show(location.hash.slice(1)));
+// bouton « retour » du navigateur : revient à la page précédente du portfolio
+window.addEventListener("popstate",()=>{show(location.hash.slice(1)); window.scrollTo(0,0)});
+document.addEventListener("click",e=>{
+  const b=e.target.closest(".copy"); if(!b) return;
+  const done=()=>{const t=b.textContent; b.textContent="Adresse copiée ✓"; setTimeout(()=>b.textContent=t,1800)};
+  try{navigator.clipboard.writeText(b.dataset.copy).then(done,()=>{})}catch(_){}
+});
 show(location.hash.slice(1));
 </script>
 </body>
